@@ -4,11 +4,116 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Discover, track, and curate your cinematic journey with ReelCache. 
+        Easily save and organize your favorite films, creating a personalized watchlist that ensures you never miss a movie. 
+        Explore a world of entertainment at your fingertips, where your movie choices are stored and ready for your next 
+        viewing adventure. Turn your film preferences into a curated cinematic experience.">
     <title>ReelCache</title>
+    <link rel="stylesheet" 
+          href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" 
+          integrity="sha512-DTOQO9RWCH3ppGqcWaEA1BIZOC6xxalwEsw9c2QQeAIftl+Vegovlnee1c9QX4TctnWMn13TZye+giMm8e2LwA==" 
+          crossorigin="anonymous" 
+          referrerpolicy="no-referrer" 
+    >
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/normalize/8.0.1/normalize.css">
+    <link rel="stylesheet" href="./styles/base.css">
+    <link rel="stylesheet" href="./styles/index.css">
 </head>
 
 <body>
+    <header class="header">
+        <h1 class="header__title">ReelCache</h1>
+    </header>
 
+    <main>
+        <search class="search">
+            <form class="search__form" id="search__form">
+                <i class="fa-solid fa-magnifying-glass"></i>
+                <input class="search__input" id="search__input" type="text" autocomplete="on" placeholder="Search for Movies and Shows...">
+                <button class="search__button" id="search__button" type="submit">Search</button>
+            </form>
+        </search>
+        <!-- Results will be displayed here -->
+
+        <!-- Search result markup (use CSS grid to lay out the elements) -->
+        <section class="search-results">
+            <article class="result">
+                <img class="result__img" src="https://m.media-amazon.com/images/M/MV5BMDQ0NjgyN2YtNWViNS00YjA3LTkxNDktYzFkZTExZGMxZDkxXkEyXkFqcGdeQXVyODE5NzE3OTE@._V1_SX300.jpg" alt="media poster">
+                <h2 class="result__title">Dune (<time datetime="2021">2021</time>)</h2>
+                <button class="result__like-btn" type="button">
+                    <i class="fa-regular fa-heart"></i>
+                </button>
+                <span class="result__type">Movie</span>
+                <time datetime="PT155M">155 min</time>
+                <span class="result__genre">Action, Adventure, Drama</span>
+                <span class="result__rating">
+                    <i class="fa-solid fa-star"></i>
+                    <span class="result__rating-value">8.0</span>
+                </span>
+            </article>
+        </section>
+    </main>
+    
+    <!-- Modal for viewing details of selected media -->
+    <dialog class="modal" id="modal" aria-modal="true" open>
+        <button class="modal__back-btn" type="button">
+            <i class="fa-solid fa-arrow-left"></i>
+        </button>
+        <button class="modal__like-btn" type="button">
+            <i class="fa-regular fa-heart"></i>
+        </button>
+        <div class="media">
+            <img src="https://m.media-amazon.com/images/M/MV5BMDQ0NjgyN2YtNWViNS00YjA3LTkxNDktYzFkZTExZGMxZDkxXkEyXkFqcGdeQXVyODE5NzE3OTE@._V1_SX300.jpg" alt="media poster">
+            <h2 class="media__title">Dune</h2>
+            <time class="media__runtime" datetime="PT155M">155 min</time>
+            <span class="media__rated">PG-13</span>
+            <span class="media__rating">
+                <i class="fa-solid fa-star"></i>
+                <span class="media__rating-value">8.0</span>
+            </span>
+            <span class="media__genre">Action, Adventure, Drama</span>
+            <p class="media__plot">A noble family becomes embroiled in a war for control over 
+                the galaxy's most valuable asset while its heir becomes 
+                troubled by visions of a dark future.</p>
+            <dl class="media__info">
+                <div>
+                    <dt class="media__term">Year</dt>
+                    <dd class="media__detail">2021</dd>
+                </div>
+                <div>
+                    <dt class="media__term">Director(s)</dt>
+                    <dd class="media__detail">Denis Villenueve</dd> 
+                </div>
+                <div>
+                    <dt class="media__term">Writer(s)</dt>
+                    <dd class="media__detail">Jon Spaihts, Denis Villeneuve, Eric Roth</dd>
+                </div>
+                <div>
+                    <dt class="media__term">Actor(s)</dt>
+                    <dd class="media__detail">Timothée Chalamet, Rebecca Ferguson, Zendaya</dd>
+                </div>
+                <div>
+                    <dt class="media__term">Box Office</dt>
+                    <dd class="media__detail">$108,327,830</dd>
+                </div>
+            </dl>
+
+        </div>
+    </dialog>
+
+    <footer class="footer">
+        <!-- Navigation on mobile/table screen sizes -->
+        <nav class="footer__nav">
+            <ul class="nav__menu">
+                <li class="nav__item">
+                    <a href="/index.html">Home</a>
+                </li>
+                <li class="nav__item">
+                    <a href="/watchlist.html">My Watchlist</a>
+                </li>
+            </ul>
+        </nav>
+    </footer>
     <script type="module" src="/main.js"></script>
 </body>
 
