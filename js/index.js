@@ -1,6 +1,9 @@
-const searchForm = document.getElementById('search__form');
+import { Media, Movie, Series } from "./classes.js";
+
 const apiKey = import.meta.env.VITE_API_KEY;
 const BASE_URL = `http://www.omdbapi.com/?apikey=${apiKey}&`;
+const searchForm = document.getElementById('search__form');
+
 // TODO: Disable button when input field is empty
 
 
@@ -39,10 +42,18 @@ async function getSearchResults(query) {
             // Filter for only fulfilled promises
             .filter(result => result.status === 'fulfilled')
             // Create new array with film details only
-            .map(result => result.value);
+            .map(result => {
+                const resultObj = result.value;
+                if (resultObj.Type === 'movie') {
+                    return new Movie(resultObj);
+                } else if (resultObj.Type === 'series') {
+                    return new Series(resultObj);
+                } else {
+                    return new Media(resultObj);
+                }
+            });
 
-        console.log(filteredResults)
-
+        console.log(filteredResults);
         // return detailedSearchResults;
     } catch (err) {
         console.error(`Error: ${err}`);
