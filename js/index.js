@@ -5,14 +5,18 @@ const BASE_URL = `http://www.omdbapi.com/?apikey=${apiKey}&`;
 const searchForm = document.getElementById('search__form');
 
 // TODO: Disable button when input field is empty
-
+let searchResults = [];
 
 searchForm.addEventListener('submit', async event => {
     event.preventDefault();
     console.log('Submit button clicked');
     const searchFormData = new FormData(searchForm);
     const searchQuery = searchFormData.get('search-string').toLowerCase();
-    const searchResults = await getSearchResults(searchQuery);
+    searchResults = await getSearchResults(searchQuery);
+    // 
+    const articles = searchResults.map(resultObj => resultObj.createSearchResult());
+    console.log(articles);
+    document.getElementById('search-results').append(...articles);
 });
 
 
@@ -54,7 +58,7 @@ async function getSearchResults(query) {
             });
 
         console.log(filteredResults);
-        // return detailedSearchResults;
+        return filteredResults;
     } catch (err) {
         console.error(`Error: ${err}`);
     }
