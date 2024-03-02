@@ -13,10 +13,15 @@ searchForm.addEventListener('submit', async event => {
     const searchFormData = new FormData(searchForm);
     const searchQuery = searchFormData.get('search-string').toLowerCase();
     searchResults = await getSearchResults(searchQuery);
-    // 
-    const articles = searchResults.map(resultObj => resultObj.createSearchResult());
-    console.log(articles);
-    document.getElementById('search-results').append(...articles);
+    
+    console.log(searchResults);
+    if (searchResults.length) {
+        const articles = searchResults.map(resultObj => resultObj.createSearchResult());
+        document.getElementById('search-results').append(...articles);
+    } else {
+        document.getElementById('search-results').innerHTML = '<h2>No results found.</h2>';
+    }
+
 });
 
 
@@ -61,6 +66,7 @@ async function getSearchResults(query) {
         return filteredResults;
     } catch (err) {
         console.error(`Error: ${err}`);
+        return [];
     }
 }
 
