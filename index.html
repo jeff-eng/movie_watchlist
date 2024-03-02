@@ -35,27 +35,13 @@
         </search>
         
         <!-- Search result markup (use CSS grid to lay out the elements) -->
-        <!-- Results will be displayed here -->
-        <section class="search-results">
-            <article class="result">
-                <img class="result__img" src="https://m.media-amazon.com/images/M/MV5BMDQ0NjgyN2YtNWViNS00YjA3LTkxNDktYzFkZTExZGMxZDkxXkEyXkFqcGdeQXVyODE5NzE3OTE@._V1_SX300.jpg" alt="media poster">
-                <h2 class="result__title">Dune (<time datetime="2021">2021</time>)</h2>
-                <button class="result__like-btn" type="button">
-                    <i class="fa-regular fa-heart"></i>
-                </button>
-                <span class="result__type">Movie</span>
-                <time datetime="PT155M">155 min</time>
-                <span class="result__genre">Action, Adventure, Drama</span>
-                <span class="result__rating">
-                    <i class="fa-solid fa-star"></i>
-                    <span class="result__rating-value">8.0</span>
-                </span>
-            </article>
+        <section class="search-results" id="search-results">
+            <!-- Results populated dynamically -->
         </section>
     </main>
     
     <!-- Modal for viewing details of selected media -->
-    <dialog class="modal" id="modal" aria-modal="true" open>
+    <dialog class="modal" id="modal" aria-modal="true" closed>
         <button class="modal__back-btn" type="button">
             <i class="fa-solid fa-arrow-left"></i>
         </button>
