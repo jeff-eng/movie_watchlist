@@ -16,14 +16,13 @@ searchForm.addEventListener('submit', async event => {
     
     console.log(searchResults);
     if (searchResults.length) {
-        const articles = searchResults.map(resultObj => resultObj.createSearchResult());
+        const articles = searchResults.map(resultObj => resultObj.createSearchResultHtml());
         document.getElementById('search-results').append(...articles);
     } else {
         document.getElementById('search-results').innerHTML = '<h2>No results found.</h2>';
     }
 
 });
-
 
 async function getSearchResults(query) {
     // Use 's' query string parameter to get paginated list of results
@@ -87,4 +86,33 @@ async function getCompleteFilmDetails(imdbID) {
     }
 }
 
-// TODO: Render function to display search results (successful or otherwise)
+// Handle when media item is liked/unliked
+document.addEventListener('click', event => {
+    const clickedMediaId = event.target.parentElement.dataset.imdbid;
+    if (clickedMediaId) {
+        // Get index of matching item
+        const matchingItemIndex = searchResults.findIndex(item => item.imdbID === clickedMediaId);
+        // Toggle liked state of object in searchResults array
+        searchResults[matchingItemIndex].liked = !searchResults[matchingItemIndex].liked;
+
+
+        if (localStorage.getItem('movieWatchlist')) {
+            let storedWatchlist = JSON.parse(localStorage.getItem('movieWatchlist'));
+            // Add class instance to object
+            storedWatchlist[clickedMediaId] = searchResults[matchingItemIndex];
+            // Save object back to local storage
+            localStorage.setItem('movieWatchlist', JSON.stringify(storedWatchlist));
+
+        } else {
+            const watchlistObj = new Object();
+            watchlistObj[clickedMediaId] = searchResults[matchingItemIndex];
+            // Create the movieWatchlist key in local storage and save object to local storage
+            localStorage.setItem('movieWatchlist', JSON.stringify(watchlistObj));
+        }
+        // const serializedItem = JSON.stringify(matchingItem);
+        // // Store serialized instance in local storage
+        // localStorage.setItem(clickedMediaId, serializedItem);
+
+        // 
+    }
+});
