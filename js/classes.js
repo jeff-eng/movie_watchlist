@@ -20,6 +20,7 @@ class Media {
         this.imdbVotes = obj.imdbVotes;
         this.imdbID = obj.imdbID;
         this.type = obj.Type;
+        this.liked = false;
     }
 
     #createBasicElement(tagType = 'div', idName = '', ...classNames) {
@@ -30,7 +31,7 @@ class Media {
         return htmlElement;
     }
 
-    createSearchResult() {
+    createSearchResultHtml() {
         const article = this.#createBasicElement('article', this.imdbID, 'result');
         
         // Use placeholder image for instances where poster is N/A
