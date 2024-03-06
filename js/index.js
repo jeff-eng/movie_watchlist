@@ -84,11 +84,6 @@ async function getSearchResults(query, watchlist) {
     }
 }
 
-// Returns an array of items common to both input arrays
-function intersection(arr1, arr2) {
-    return arr1.length >= arr2.length ? arr1.filter(element => arr2.includes(element)) : arr2.filter(element => arr1.includes(element));
-}
-
 async function getCompleteFilmDetails(imdbID) {
     const apiUrl = BASE_URL + `i=${imdbID}`;
 
@@ -117,8 +112,8 @@ document.addEventListener('click', event => {
         searchResults[matchingItemIndex].liked = !searchResults[matchingItemIndex].liked;
         console.log(searchResults[matchingItemIndex]);
 
-        watchlist = searchResults[matchingItemIndex].liked ? addToWatchlist(searchResults[matchingItemIndex], watchlist) 
-                        : removeFromWatchlist(searchResults[matchingItemIndex] , watchlist);
+        watchlist = searchResults[matchingItemIndex].liked ? addToStoredWatchlist(searchResults[matchingItemIndex], watchlist) 
+                        : removeFromStoredWatchlist(searchResults[matchingItemIndex] , watchlist);
         
         console.log(watchlist);
 
@@ -127,13 +122,13 @@ document.addEventListener('click', event => {
     }
 });
 
-function addToWatchlist(mediaItem, movieWatchlist) {
+function addToStoredWatchlist(mediaItem, movieWatchlist) {
     movieWatchlist[mediaItem.imdbID] = mediaItem;
     localStorage.setItem('movieWatchlist', JSON.stringify(movieWatchlist));
     return movieWatchlist;
 }
 
-function removeFromWatchlist(mediaItem, movieWatchlist) {
+function removeFromStoredWatchlist(mediaItem, movieWatchlist) {
     delete movieWatchlist[mediaItem.imdbID];
     localStorage.setItem('movieWatchlist', JSON.stringify(movieWatchlist));
     return movieWatchlist;
@@ -141,11 +136,11 @@ function removeFromWatchlist(mediaItem, movieWatchlist) {
 
 function setupWatchlist() {
     // Check for watchlist key in local storage
-    const ls = localStorage.getItem('movieWatchlist');
+    const storedWatchlist = localStorage.getItem('movieWatchlist');
 
-    if (ls) {
+    if (storedWatchlist) {
         // Set the array to the value of whatever's in local storage
-        return JSON.parse(ls);
+        return JSON.parse(storedWatchlist);
     } else {
         // Create the key in local storage
         const newWatchlist = new Object();
