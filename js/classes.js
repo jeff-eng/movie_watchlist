@@ -20,6 +20,7 @@ class Media {
         this.imdbVotes = obj.imdbVotes;
         this.imdbID = obj.imdbID;
         this.type = obj.Type;
+        this.liked = false;
     }
 
     #createBasicElement(tagType = 'div', idName = '', ...classNames) {
@@ -30,7 +31,7 @@ class Media {
         return htmlElement;
     }
 
-    createSearchResult() {
+    createSearchResultHtml() {
         const article = this.#createBasicElement('article', this.imdbID, 'result');
         
         // Use placeholder image for instances where poster is N/A
@@ -44,11 +45,11 @@ class Media {
                 <img class="result__img" src="${this.poster}" alt="${this.title} ${this.type} poster">
             </picture>
             <h2 class="result__title">${this.title} (<time datetime="${this.year}">${this.year}</time>)</h2>
-            <button class="result__like-btn" type="button" data-imdbID="${this.imdbID}">
-                <i class="fa-regular fa-heart"></i>
+            <button class="result__like-btn" type="button" data-imdb-id="${this.imdbID}">
+                <i class="${this.liked ? 'fa-solid' : 'fa-regular'} fa-heart"></i>
             </button>
             <span class="result__type">${this.type}</span>
-            <time datetime="PT${this.runtime}M">${this.runtime}</time>
+            <time datetime="PT${this.runtime.split(' ')[0]}M">${this.runtime}</time>
             <span class="result__genre">${this.genre}</span>
             <span class="result__rating">
                 <i class="fa-solid fa-star"></i>
