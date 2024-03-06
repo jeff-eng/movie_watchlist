@@ -14,7 +14,7 @@ searchForm.addEventListener('submit', async event => {
     console.log('Submit button clicked');
     const searchFormData = new FormData(searchForm);
     const searchQuery = searchFormData.get('search-string').toLowerCase();
-    searchResults = await getSearchResults(searchQuery);
+    searchResults = await getSearchResults(searchQuery, watchlist);
     
     console.log(searchResults);
     if (searchResults.length) {
@@ -26,7 +26,7 @@ searchForm.addEventListener('submit', async event => {
 
 });
 
-async function getSearchResults(query) {
+async function getSearchResults(query, watchlist) {
     // Use 's' query string parameter to get paginated list of results
     const apiUrl = BASE_URL + `s=${encodeURIComponent(query)}`;
     
@@ -42,10 +42,7 @@ async function getSearchResults(query) {
         // Initial search results only include: Title, Year, Poster(image url), Type, imdbID
         // Perform additional API call for each item to get full details
         const initialSearchResults = data.Search;
-        const detailedSearchResults = await Promise.allSettled(initialSearchResults.map(async result => {
-            const filmDetails = await getCompleteFilmDetails(result.imdbID);
-            return filmDetails;
-        }));
+        const detailedSearchResults = await Promise.allSettled(initialSearchResults.map(async result => await getCompleteFilmDetails(result.imdbID)));
 
         // Create new array of successfully retrieved films only
         const filteredResults = detailedSearchResults
@@ -54,6 +51,7 @@ async function getSearchResults(query) {
             // Create new array with film details only
             .map(result => {
                 const resultObj = result.value;
+
                 if (resultObj.Type === 'movie') {
                     return new Movie(resultObj);
                 } else if (resultObj.Type === 'series') {
@@ -62,13 +60,33 @@ async function getSearchResults(query) {
                     return new Media(resultObj);
                 }
             });
+        
+        // Convert filtered results array to a dictionary/object 
+        const filteredResultsObj = filteredResults.reduce((accumulator, currentValue) => {
+            accumulator[currentValue.imdbID] = currentValue;
+            return accumulator;
+        }, {});
 
-        console.log(filteredResults);
-        return filteredResults;
+        // Iterate through the keys (the ids) in filtered results object and cross check against the watchlist
+        Object.keys(filteredResultsObj).forEach(id => {
+            // If the id from the filtered results returns a value in watchlist, then set liked property to true so we can render a filled heart on liked media
+            if (watchlist[id]) {
+                filteredResultsObj[id].liked = true;
+            }
+        });
+
+        const filteredResultsValues = Object.values(filteredResultsObj);
+
+        return filteredResultsValues;
     } catch (err) {
         console.error(`Error: ${err}`);
         return [];
     }
+}
+
+// Returns an array of items common to both input arrays
+function intersection(arr1, arr2) {
+    return arr1.length >= arr2.length ? arr1.filter(element => arr2.includes(element)) : arr2.filter(element => arr1.includes(element));
 }
 
 async function getCompleteFilmDetails(imdbID) {
@@ -99,15 +117,28 @@ document.addEventListener('click', event => {
         searchResults[matchingItemIndex].liked = !searchResults[matchingItemIndex].liked;
         console.log(searchResults[matchingItemIndex]);
 
-        searchResults[matchingItemIndex].liked ? watchlist.push(searchResults[matchingItemIndex]) : watchlist.splice(watchlist.findIndex(item => item.imdbID === clickedMediaId), 0);
+        watchlist = searchResults[matchingItemIndex].liked ? addToWatchlist(searchResults[matchingItemIndex], watchlist) 
+                        : removeFromWatchlist(searchResults[matchingItemIndex] , watchlist);
+        
         console.log(watchlist);
 
-        // Update local storage
-        localStorage.setItem('movieWatchlist', JSON.stringify(watchlist));
+    } else {
+        return;
     }
 });
 
-// Initialize watchlist in local storage
+function addToWatchlist(mediaItem, movieWatchlist) {
+    movieWatchlist[mediaItem.imdbID] = mediaItem;
+    localStorage.setItem('movieWatchlist', JSON.stringify(movieWatchlist));
+    return movieWatchlist;
+}
+
+function removeFromWatchlist(mediaItem, movieWatchlist) {
+    delete movieWatchlist[mediaItem.imdbID];
+    localStorage.setItem('movieWatchlist', JSON.stringify(movieWatchlist));
+    return movieWatchlist;
+}
+
 function setupWatchlist() {
     // Check for watchlist key in local storage
     const ls = localStorage.getItem('movieWatchlist');
@@ -117,41 +148,8 @@ function setupWatchlist() {
         return JSON.parse(ls);
     } else {
         // Create the key in local storage
-        const newWatchlist = new Array();
+        const newWatchlist = new Object();
         localStorage.setItem('movieWatchlist', JSON.stringify(newWatchlist));
         return newWatchlist;
     }
 }
-
-
-
-
-// function updateWatchlist(imdbId, searchResultObj) {
-//     console.log(searchResultObj, imdbId);
-    
-//     const storedWatchlist = localStorage.getItem('movieWatchlist');
-//     console.log(storedWatchlist);
-//     // Check that key in local storage exists
-//     if (storedWatchlist) {
-//         const parsedWatchListFromLocalStorage = JSON.parse(storedWatchlist);
-//         // If liked -> Add to local storage
-//         if (searchResultObj.liked) {
-//             parsedWatchListFromLocalStorage[imdbId] = searchResultObj;
-//             // Add to local storage
-//             localStorage.setItem('movieWatchlist', parsedWatchListFromLocalStorage);
-//         } else {
-//             // Remove key-value pair associated with movie ID
-//             delete parsedWatchListFromLocalStorage[imdbId];
-//             console.log(parsedWatchListFromLocalStorage);
-//             localStorage.setItem('movieWatchlist', JSON.stringify(parsedWatchListFromLocalStorage));
-//             console.log(localStorage.getItem('movieWatchlist'));
-//             if (localStorage.getItem('movieWatchlist'))
-//         }
-//     } else {
-//         const watchlistObj = new Object();
-//         watchlistObj[imdbId] = searchResultObj;
-//         // Create the movieWatchlist key in local storage and save object to local storage
-//         localStorage.setItem('movieWatchlist', JSON.stringify(watchlistObj));
-//         console.log(localStorage.getItem('movieWatchlist'));
-//     }
-// }
