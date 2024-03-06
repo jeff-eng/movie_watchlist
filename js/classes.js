@@ -46,7 +46,7 @@ class Media {
             </picture>
             <h2 class="result__title">${this.title} (<time datetime="${this.year}">${this.year}</time>)</h2>
             <button class="result__like-btn" type="button" data-imdbID="${this.imdbID}">
-                <i class="fa-regular fa-heart"></i>
+                <i class="${this.liked ? 'fa-solid' : 'fa-regular'} fa-heart"></i>
             </button>
             <span class="result__type">${this.type}</span>
             <time datetime="PT${this.runtime}M">${this.runtime}</time>
