@@ -11,19 +11,17 @@ let searchResults = [];
 
 searchForm.addEventListener('submit', async event => {
     event.preventDefault();
-    console.log('Submit button clicked');
+    // console.log('Submit button clicked');
     const searchFormData = new FormData(searchForm);
     const searchQuery = searchFormData.get('search-string').toLowerCase();
     searchResults = await getSearchResults(searchQuery, watchlist);
     
-    console.log(searchResults);
     if (searchResults.length) {
         const articles = searchResults.map(resultObj => resultObj.createSearchResultHtml());
         document.getElementById('search-results').append(...articles);
     } else {
         document.getElementById('search-results').innerHTML = '<h2>No results found.</h2>';
     }
-
 });
 
 async function getSearchResults(query, watchlist) {
@@ -76,7 +74,6 @@ async function getSearchResults(query, watchlist) {
         });
 
         const filteredResultsValues = Object.values(filteredResultsObj);
-
         return filteredResultsValues;
     } catch (err) {
         console.error(`Error: ${err}`);
@@ -102,21 +99,17 @@ async function getCompleteFilmDetails(imdbID) {
 }
 
 // Handle when media item is liked/unliked
-document.addEventListener('click', event => {
-    const clickedMediaId = event.target.parentElement.dataset.imdbid;
+document.getElementById('search-results').addEventListener('click', event => {
+    const clickedMediaId = event.target.parentElement.dataset.imdbId ?? null;
+
     if (clickedMediaId) {
         // Get index of matching item from search results
         const matchingItemIndex = searchResults.findIndex(item => item.imdbID === clickedMediaId);
-        console.log(matchingItemIndex);
         // Toggle liked state of object in searchResults array
         searchResults[matchingItemIndex].liked = !searchResults[matchingItemIndex].liked;
-        console.log(searchResults[matchingItemIndex]);
-
+        // Update watchlist variable 
         watchlist = searchResults[matchingItemIndex].liked ? addToStoredWatchlist(searchResults[matchingItemIndex], watchlist) 
                         : removeFromStoredWatchlist(searchResults[matchingItemIndex] , watchlist);
-        
-        console.log(watchlist);
-
     } else {
         return;
     }
