@@ -17,7 +17,7 @@ searchForm.addEventListener('submit', async event => {
     
     if (searchResults.length) {
         const articles = searchResults.map(resultObj => resultObj.createSearchResultHtml());
-        document.getElementById('search-results').append(...articles);
+        document.getElementById('search-results').replaceChildren(...articles);
     } else {
         document.getElementById('search-results').innerHTML = '<h2>No results found.</h2>';
     }
