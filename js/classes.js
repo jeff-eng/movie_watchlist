@@ -59,6 +59,62 @@ class Media {
 
         return article;
     }
+
+    createModalDetailHtml() {
+        const backButton = this.#createBasicElement('button', '', 'modal__back-btn');
+        const backIcon = this.#createBasicElement('i', '', 'fa-solid', 'fa-arrow-left');
+        backButton.appendChild(backIcon);
+
+        const mediaDivEl = this.#createBasicElement('div', '', 'media');
+
+        // Use placeholder image for instances where poster is N/A
+        if (this.poster === 'N/A') {
+            this.poster = './../assets/imgholdr-image.png';
+        }
+
+        mediaDivEl.innerHTML = `
+            <button class="modal__like-btn" type="button">
+                <i class="fa-regular fa-heart"></i>
+            </button>
+            <picture>
+                <source srcset="${this.poster}" type="image/png">
+                <img class="media__poster" src="${this.poster}" alt="${this.title} ${this.type} poster">
+            </picture>
+            <h2 class="media__title">${this.title}</h2>
+            <time class="media__runtime" datetime="PT${this.runtime.split(' ')[0]}M">${this.runtime}</time>
+            <span class="media__rated">${this.rated}</span>
+            <span class="media__rating">
+                <i class="fa-solid fa-star"></i>
+                <span class="media__rating-value">${this.imdbRating}</span>
+            </span>
+            <span class="media__genre">${this.genre}</span>
+            <p class="media__plot">${this.plot}</p>
+            <dl class="media__info">
+                <div>
+                    <dt class="media__term">Year</dt>
+                    <dd class="media__detail">${this.year}</dd>
+                </div>
+                <div>
+                    <dt class="media__term">Director(s)</dt>
+                    <dd class="media__detail">${this.director}</dd> 
+                </div>
+                <div>
+                    <dt class="media__term">Writer(s)</dt>
+                    <dd class="media__detail">${this.writer}</dd>
+                </div>
+                <div>
+                    <dt class="media__term">Actor(s)</dt>
+                    <dd class="media__detail">${this.actors}</dd>
+                </div>
+                <div>
+                    <dt class="media__term">Box Office</dt>
+                    <dd class="media__detail">${this.boxOffice ?? 'N/A'}</dd>
+                </div>
+            </dl>
+        `;
+
+        return [backButton, mediaDivEl];
+    }
 }
 
 class Movie extends Media {
