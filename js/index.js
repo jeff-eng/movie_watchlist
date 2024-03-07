@@ -11,7 +11,6 @@ let searchResults = [];
 
 searchForm.addEventListener('submit', async event => {
     event.preventDefault();
-    // console.log('Submit button clicked');
     const searchFormData = new FormData(searchForm);
     const searchQuery = searchFormData.get('search-string').toLowerCase();
     searchResults = await getSearchResults(searchQuery, watchlist);
@@ -100,33 +99,48 @@ async function getCompleteFilmDetails(imdbID) {
 
 // Handle when media item is liked/unliked
 document.getElementById('search-results').addEventListener('click', event => {
-    const clickedMediaId = event.target.parentElement.dataset.imdbId ?? null;
+    const eventTarget = event.target;
+    const likedButtonMediaId = eventTarget.closest('button[data-imdb-id]').dataset.imdbId ?? null;
+    const clickedArticleId = eventTarget.closest('article.result').id ?? null;
 
-    if (clickedMediaId) {
+    if (likedButtonMediaId) {
         // Get index of matching item from search results
-        const matchingItemIndex = searchResults.findIndex(item => item.imdbID === clickedMediaId);
+        const matchingItemIndex = searchResults.findIndex(item => item.imdbID === likedButtonMediaId);
         // Toggle liked state of object in searchResults array
         searchResults[matchingItemIndex].liked = !searchResults[matchingItemIndex].liked;
         // Update watchlist variable 
         watchlist = searchResults[matchingItemIndex].liked ? addToStoredWatchlist(searchResults[matchingItemIndex], watchlist) 
                         : removeFromStoredWatchlist(searchResults[matchingItemIndex] , watchlist);
-    } else {
-        return;
+    } else if (clickedArticleId) {
+        openModal(clickedArticleId);
+    } else return;
+});
+
+// Modal back button event listener - close modal
+document.getElementById('modal').addEventListener('click', event => {
+    if (event.target.closest('.modal__back-btn')) {
+        closeModal();
     }
 });
 
-function addToStoredWatchlist(mediaItem, movieWatchlist) {
-    movieWatchlist[mediaItem.imdbID] = mediaItem;
-    localStorage.setItem('movieWatchlist', JSON.stringify(movieWatchlist));
-    return movieWatchlist;
+function openModal(mediaId) {
+    document.getElementById('modal').showModal();
+    document.body.style.overflow = 'hidden';
+
+    console.log(searchResults);
+
+    const someIndex = searchResults.findIndex(element => element.imdbID === mediaId);
+    const html = searchResults[someIndex].createModalDetailHtml();
+
+    document.getElementById('modal').replaceChildren(...html);
 }
 
-function removeFromStoredWatchlist(mediaItem, movieWatchlist) {
-    delete movieWatchlist[mediaItem.imdbID];
-    localStorage.setItem('movieWatchlist', JSON.stringify(movieWatchlist));
-    return movieWatchlist;
+function closeModal() {
+    document.getElementById('modal').close();
+    document.body.style.overflow = 'auto';
 }
 
+// Initialize watchlist variable from local storage on page load
 function setupWatchlist() {
     // Check for watchlist key in local storage
     const storedWatchlist = localStorage.getItem('movieWatchlist');
@@ -140,4 +154,16 @@ function setupWatchlist() {
         localStorage.setItem('movieWatchlist', JSON.stringify(newWatchlist));
         return newWatchlist;
     }
+}
+
+function addToStoredWatchlist(mediaItem, movieWatchlist) {
+    movieWatchlist[mediaItem.imdbID] = mediaItem;
+    localStorage.setItem('movieWatchlist', JSON.stringify(movieWatchlist));
+    return movieWatchlist;
+}
+
+function removeFromStoredWatchlist(mediaItem, movieWatchlist) {
+    delete movieWatchlist[mediaItem.imdbID];
+    localStorage.setItem('movieWatchlist', JSON.stringify(movieWatchlist));
+    return movieWatchlist;
 }
