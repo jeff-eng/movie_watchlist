@@ -17,80 +17,29 @@
     >
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/normalize/8.0.1/normalize.css">
     <link rel="stylesheet" href="./styles/base.css">
-    <link rel="stylesheet" href="./styles/index.css">
 </head>
 
 <body>
     <header class="header">
         <h1 class="header__title">ReelCache</h1>
+        <h2 class="header__subtitle">Watchlist</h2>
     </header>
 
     <main>
-        <!-- Search result markup (use CSS grid to lay out the elements) -->
-        <!-- Results will be displayed here -->
-        <section class="search-results">
-            <article class="result">
-                <img class="result__img" src="https://m.media-amazon.com/images/M/MV5BMDQ0NjgyN2YtNWViNS00YjA3LTkxNDktYzFkZTExZGMxZDkxXkEyXkFqcGdeQXVyODE5NzE3OTE@._V1_SX300.jpg" alt="media poster">
-                <h2 class="result__title">Dune (<time datetime="2021">2021</time>)</h2>
-                <button class="result__like-btn" type="button">
-                    <i class="fa-solid fa-heart"></i>
-                </button>
-                <span class="result__type">Movie</span>
-                <time datetime="PT155M">155 min</time>
-                <span class="result__genre">Action, Adventure, Drama</span>
-                <span class="result__rating">
-                    <i class="fa-solid fa-star"></i>
-                    <span class="result__rating-value">8.0</span>
-                </span>
-            </article>
+
+        <section class="watchlist" id="watchlist">
+            <!-- Watchlist items will be displayed here -->
         </section>
     </main>
 
             <!-- Modal for viewing details of selected media -->
-    <dialog class="modal" id="modal" aria-modal="true" open>
+    <dialog class="modal" id="modal" aria-modal="true" closed>
         <button class="modal__back-btn" type="button">
             <i class="fa-solid fa-arrow-left"></i>
         </button>
-        <button class="modal__like-btn" type="button">
-            <i class="fa-solid fa-heart"></i>
-        </button>
-        <div class="media">
-            <img src="https://m.media-amazon.com/images/M/MV5BMDQ0NjgyN2YtNWViNS00YjA3LTkxNDktYzFkZTExZGMxZDkxXkEyXkFqcGdeQXVyODE5NzE3OTE@._V1_SX300.jpg" alt="media poster">
-            <h2 class="media__title">Dune</h2>
-            <time class="media__runtime" datetime="PT155M">155 min</time>
-            <span class="media__rated">PG-13</span>
-            <span class="media__rating">
-                <i class="fa-solid fa-star"></i>
-                <span class="media__rating-value">8.0</span>
-            </span>
-            <span class="media__genre">Action, Adventure, Drama</span>
-            <p class="media__plot">A noble family becomes embroiled in a war for control over 
-                the galaxy's most valuable asset while its heir becomes 
-                troubled by visions of a dark future.</p>
-            <dl class="media__info">
-                <div>
-                    <dt class="media__term">Year</dt>
-                    <dd class="media__detail">2021</dd>
-                </div>
-                <div>
-                    <dt class="media__term">Director(s)</dt>
-                    <dd class="media__detail">Denis Villenueve</dd> 
-                </div>
-                <div>
-                    <dt class="media__term">Writer(s)</dt>
-                    <dd class="media__detail">Jon Spaihts, Denis Villeneuve, Eric Roth</dd>
-                </div>
-                <div>
-                    <dt class="media__term">Actor(s)</dt>
-                    <dd class="media__detail">Timothée Chalamet, Rebecca Ferguson, Zendaya</dd>
-                </div>
-                <div>
-                    <dt class="media__term">Box Office</dt>
-                    <dd class="media__detail">$108,327,830</dd>
-                </div>
-            </dl>
 
-        </div>
+        <!-- Detailed media details dynamically rendered here -->
+
     </dialog>
 
     <footer class="footer">
@@ -106,7 +55,7 @@
             </ul>
         </nav>
     </footer>
-    <script type="module" src=""></script>
+    <script type="module" src="js/watchlist.js"></script>
 </body>
 
 </html>
