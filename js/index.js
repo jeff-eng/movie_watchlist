@@ -1,11 +1,5 @@
-import {
-    setupWatchlist,
-    openModal,
-    closeModal,
-    addToStoredWatchlist,
-    removeFromStoredWatchlist
-} from "./watchlist.js";
-import { getSearchResults } from "./functions.js";
+import { setupWatchlist, addToStoredWatchlist, removeFromStoredWatchlist } from "./watchlist.js";
+import { getSearchResults, openModal, closeModal } from "./functions.js";
 
 const apiKey = import.meta.env.VITE_API_KEY;
 const BASE_URL = `http://www.omdbapi.com/?apikey=${apiKey}&`;

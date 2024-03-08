@@ -74,4 +74,19 @@ async function getCompleteFilmDetails(baseUrl, imdbID) {
     }
 }
 
-export { getSearchResults };
+function openModal(searchResults, mediaId) {
+    document.getElementById('modal').showModal();
+    document.body.style.overflow = 'hidden';
+
+    const index = searchResults.findIndex(element => element.imdbID === mediaId);
+    const modalHtml = searchResults[index].createModalDetailHtml();
+
+    document.getElementById('modal').replaceChildren(...modalHtml);
+}
+
+function closeModal() {
+    document.getElementById('modal').close();
+    document.body.style.overflow = 'auto';
+}
+
+export { getSearchResults, openModal, closeModal };
