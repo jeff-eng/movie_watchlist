@@ -45,8 +45,8 @@ class Media {
                 <img class="result__img" src="${this.poster}" alt="${this.title} ${this.type} poster">
             </picture>
             <h2 class="result__title">${this.title} (<time datetime="${this.year}">${this.year}</time>)</h2>
-            <button class="result__like-btn" type="button" data-imdb-id="${this.imdbID}">
-                <i class="${this.liked ? 'fa-solid' : 'fa-regular'} fa-heart"></i>
+            <button class="result__like-btn" type="button">
+                <i class="${this.liked ? 'fa-solid' : 'fa-regular'} fa-heart" data-imdb-id="${this.imdbID}"></i>
             </button>
             <span class="result__type">${this.type}</span>
             <time datetime="PT${this.runtime.split(' ')[0]}M">${this.runtime}</time>
