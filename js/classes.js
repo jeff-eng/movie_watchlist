@@ -31,7 +31,7 @@ class Media {
         return htmlElement;
     }
 
-    createSearchResultHtml() {
+    createResultHtml() {
         const article = this.#createBasicElement('article', this.imdbID, 'result');
         
         // Use placeholder image for instances where poster is N/A
