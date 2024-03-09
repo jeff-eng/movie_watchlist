@@ -25,14 +25,7 @@ async function getSearchResults(baseUrl, query, watchlist) {
             // Create new array with film details only
             .map(result => {
                 const resultObj = result.value;
-
-                if (resultObj.Type === 'movie') {
-                    return new Movie(resultObj);
-                } else if (resultObj.Type === 'series') {
-                    return new Series(resultObj);
-                } else {
-                    return new Media(resultObj);
-                }
+                return createClassInstance(resultObj);
             });
         
         // Convert filtered results array to a dictionary/object 
@@ -54,6 +47,17 @@ async function getSearchResults(baseUrl, query, watchlist) {
     } catch (err) {
         console.error(`Error: ${err}`);
         return [];
+    }
+}
+
+// Creates and returns a class instance of Media (or one of it's child classes)
+function createClassInstance(obj) {
+    if (obj.Type === 'movie') {
+        return new Movie(obj);
+    } else if (obj.Type === 'series') {
+        return new Series(obj);
+    } else {
+        return new Media(obj);
     }
 }
 
@@ -89,4 +93,4 @@ function closeModal() {
     document.body.style.overflow = 'auto';
 }
 
-export { getSearchResults, openModal, closeModal };
+export { getSearchResults, openModal, closeModal, createClassInstance };
