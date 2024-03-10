@@ -5,15 +5,30 @@ import { setupWatchlist } from "./watchlist-functions.js";
 const apiKey = import.meta.env.VITE_API_KEY;
 const BASE_URL = `http://www.omdbapi.com/?apikey=${apiKey}&`;
 const searchForm = document.getElementById('search__form');
+const searchInput = document.getElementById('search__input');
 
+let currentSearchTerm = '';
 let watchlist = setupWatchlist();
 let searchResults = [];
 
+// Disable search button when input is empty
+searchInput.addEventListener('input', () => {
+    const searchInput = document.getElementById('search__input');
+    const searchButton = document.getElementById('search__button');
+
+    searchButton.disabled = searchInput.value.length > 0 ? false : true; 
+});
+
 searchForm.addEventListener('submit', async event => {
     event.preventDefault();
+    console.log('Clicked');
     const searchFormData = new FormData(searchForm);
     const searchQuery = searchFormData.get('search-string').toLowerCase();
-    searchResults = await getSearchResults(BASE_URL, searchQuery, watchlist);
+
+    if (searchQuery !== currentSearchTerm) {
+        searchResults = await getSearchResults(BASE_URL, searchQuery, watchlist);
+    } else return;
+
     
     if (searchResults.length) {
         const articles = searchResults.map(resultObj => resultObj.createResultHtml());
