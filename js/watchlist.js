@@ -1,31 +1,29 @@
+import { openModal, closeModal } from './functions.js';
+import { addToStoredWatchlist, removeFromStoredWatchlist, setupWatchlist, renderWatchlistHtml, renderWatchlist } from './watchlist-functions.js';
+
 let watchlist = setupWatchlist();
+console.log(watchlist);
 
-// Initialize watchlist variable from local storage on page load
-function setupWatchlist() {
-    // Check for watchlist key in local storage
-    const storedWatchlist = localStorage.getItem('movieWatchlist');
+document.getElementById('watchlist').addEventListener('click', event => {
+    const eventTarget = event.target;
 
-    if (storedWatchlist) {
-        // Set the array to the value of whatever's in local storage
-        return JSON.parse(storedWatchlist);
-    } else {
-        // Create the key in local storage
-        const newWatchlist = new Object();
-        localStorage.setItem('movieWatchlist', JSON.stringify(newWatchlist));
-        return newWatchlist;
-    }
-}
+    const likedButtonMediaId = eventTarget.dataset.imdbId ?? null;
+    const clickedArticleId = eventTarget.closest('article.result').id ?? null;
 
-function addToStoredWatchlist(mediaItem, movieWatchlist) {
-    movieWatchlist[mediaItem.imdbID] = mediaItem;
-    localStorage.setItem('movieWatchlist', JSON.stringify(movieWatchlist));
-    return movieWatchlist;
-}
+    if (likedButtonMediaId) {
+        // Update the watchlist with either addToStoredWatchlist or removeFromStoredWatchlist
+        watchlist = removeFromStoredWatchlist(watchlist[likedButtonMediaId], watchlist);
+        // Remove item from  DOM
+        document.getElementById(likedButtonMediaId).remove();
+    } else if (clickedArticleId) {
+        // Open modal
+        document.getElementById('modal').showModal();
+        // Create HTML
+        const html = watchlist[clickedArticleId].createModalDetailHtml();
+        // Insert into DOM
+        document.getElementById('modal').replaceChildren(...html);
+    } else return;
+});
 
-function removeFromStoredWatchlist(mediaItem, movieWatchlist) {
-    delete movieWatchlist[mediaItem.imdbID];
-    localStorage.setItem('movieWatchlist', JSON.stringify(movieWatchlist));
-    return movieWatchlist;
-}
-
-export { setupWatchlist, openModal, closeModal, addToStoredWatchlist, removeFromStoredWatchlist };
+// Render watchlist items to the DOM
+renderWatchlist(watchlist);
