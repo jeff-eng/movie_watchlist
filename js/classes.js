@@ -20,7 +20,7 @@ class Media {
         this.imdbVotes = obj.imdbVotes;
         this.imdbID = obj.imdbID;
         this.Type = obj.Type;
-        this.liked = false;
+        this.liked = obj.liked || false;
     }
 
     #createBasicElement(tagType = 'div', idName = '', ...classNames) {
