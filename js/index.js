@@ -1,5 +1,6 @@
-import { setupWatchlist, addToStoredWatchlist, removeFromStoredWatchlist } from "./watchlist.js";
+import { addToStoredWatchlist, removeFromStoredWatchlist } from "./watchlist-functions.js";
 import { getSearchResults, openModal, closeModal } from "./functions.js";
+import { setupWatchlist } from "./watchlist-functions.js";
 
 const apiKey = import.meta.env.VITE_API_KEY;
 const BASE_URL = `http://www.omdbapi.com/?apikey=${apiKey}&`;
@@ -15,7 +16,7 @@ searchForm.addEventListener('submit', async event => {
     searchResults = await getSearchResults(BASE_URL, searchQuery, watchlist);
     
     if (searchResults.length) {
-        const articles = searchResults.map(resultObj => resultObj.createSearchResultHtml());
+        const articles = searchResults.map(resultObj => resultObj.createResultHtml());
         document.getElementById('search-results').replaceChildren(...articles);
     } else {
         document.getElementById('search-results').innerHTML = '<h2>No results found.</h2>';
@@ -34,9 +35,10 @@ document.getElementById('search-results').addEventListener('click', event => {
         const matchingItemIndex = searchResults.findIndex(item => item.imdbID === likedButtonMediaId);
         // Toggle liked state of object in searchResults array
         searchResults[matchingItemIndex].liked = !searchResults[matchingItemIndex].liked;
-        // Update watchlist variable 
+        console.log(searchResults[matchingItemIndex]);
+        // Update watchlist variable with a class instance from searchResults that matches the index of media item that was liked
         watchlist = searchResults[matchingItemIndex].liked ? addToStoredWatchlist(searchResults[matchingItemIndex], watchlist) 
-                        : removeFromStoredWatchlist(searchResults[matchingItemIndex] , watchlist);
+                        : removeFromStoredWatchlist(searchResults[matchingItemIndex], watchlist);
     } else if (clickedArticleId) {
         openModal(searchResults, clickedArticleId);
     } else return;
