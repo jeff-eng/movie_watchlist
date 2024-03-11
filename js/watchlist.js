@@ -1,8 +1,7 @@
 import { openModal, closeModal } from './functions.js';
-import { addToStoredWatchlist, removeFromStoredWatchlist, setupWatchlist, renderWatchlistHtml, renderWatchlist } from './watchlist-functions.js';
+import { removeFromStoredWatchlist, setupWatchlist, renderWatchlist } from './watchlist-functions.js';
 
 let watchlist = setupWatchlist();
-console.log(watchlist);
 
 document.getElementById('watchlist').addEventListener('click', event => {
     const eventTarget = event.target;
@@ -23,6 +22,13 @@ document.getElementById('watchlist').addEventListener('click', event => {
         // Insert into DOM
         document.getElementById('modal').replaceChildren(...html);
     } else return;
+});
+
+// Modal back button event listener - close modal
+document.getElementById('modal').addEventListener('click', event => {
+    if (event.target.closest('.modal__back-btn')) {
+        closeModal();
+    }
 });
 
 // Render watchlist items to the DOM
