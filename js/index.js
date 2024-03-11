@@ -1,106 +1,49 @@
-import { Media, Movie, Series } from "./classes.js";
+import { addToStoredWatchlist, removeFromStoredWatchlist } from "./watchlist-functions.js";
+import { getSearchResults, openModal, closeModal } from "./functions.js";
+import { setupWatchlist } from "./watchlist-functions.js";
 
 const apiKey = import.meta.env.VITE_API_KEY;
 const BASE_URL = `http://www.omdbapi.com/?apikey=${apiKey}&`;
 const searchForm = document.getElementById('search__form');
+const searchInput = document.getElementById('search__input');
 
+let recentSearchTerm = '';
 let watchlist = setupWatchlist();
 let searchResults = [];
 
-// TODO: Disable button when input field is empty
+// Disable search button when input is empty
+searchInput.addEventListener('input', () => {
+    const searchInput = document.getElementById('search__input');
+    const searchButton = document.getElementById('search__button');
+
+    searchButton.disabled = searchInput.value.length > 0 ? false : true;
+});
 
 searchForm.addEventListener('submit', async event => {
     event.preventDefault();
+
     const searchFormData = new FormData(searchForm);
     const searchQuery = searchFormData.get('search-string').toLowerCase();
-    searchResults = await getSearchResults(searchQuery, watchlist);
-    
+
+    if (searchQuery !== recentSearchTerm) {
+        searchResults = await getSearchResults(BASE_URL, searchQuery, watchlist);
+    } else return;
+
     if (searchResults.length) {
-        const articles = searchResults.map(resultObj => resultObj.createSearchResultHtml());
+        const articles = searchResults.map(resultObj => resultObj.createResultHtml());
         document.getElementById('search-results').replaceChildren(...articles);
+        // Save recent search query so user doesn't try to search same term twice in a row
+        recentSearchTerm = searchQuery;
     } else {
         document.getElementById('search-results').innerHTML = '<h2>No results found.</h2>';
     }
 });
 
-async function getSearchResults(query, watchlist) {
-    // Use 's' query string parameter to get paginated list of results
-    const apiUrl = BASE_URL + `s=${encodeURIComponent(query)}`;
-    
-    try {
-        const response = await fetch(apiUrl);
-        const data = await response.json();
-
-        // Short-circuit failed fetch
-        if (data.Response === 'False') {
-            throw new Error(`Failed to fetch search results for ${query}`);
-        }
-
-        // Initial search results only include: Title, Year, Poster(image url), Type, imdbID
-        // Perform additional API call for each item to get full details
-        const initialSearchResults = data.Search;
-        const detailedSearchResults = await Promise.allSettled(initialSearchResults.map(async result => await getCompleteFilmDetails(result.imdbID)));
-
-        // Create new array of successfully retrieved films only
-        const filteredResults = detailedSearchResults
-            // Filter for only fulfilled promises
-            .filter(result => result.status === 'fulfilled')
-            // Create new array with film details only
-            .map(result => {
-                const resultObj = result.value;
-
-                if (resultObj.Type === 'movie') {
-                    return new Movie(resultObj);
-                } else if (resultObj.Type === 'series') {
-                    return new Series(resultObj);
-                } else {
-                    return new Media(resultObj);
-                }
-            });
-        
-        // Convert filtered results array to a dictionary/object 
-        const filteredResultsObj = filteredResults.reduce((accumulator, currentValue) => {
-            accumulator[currentValue.imdbID] = currentValue;
-            return accumulator;
-        }, {});
-
-        // Iterate through the keys (the ids) in filtered results object and cross check against the watchlist
-        Object.keys(filteredResultsObj).forEach(id => {
-            // If the id from the filtered results returns a value in watchlist, then set liked property to true so we can render a filled heart on liked media
-            if (watchlist[id]) {
-                filteredResultsObj[id].liked = true;
-            }
-        });
-
-        const filteredResultsValues = Object.values(filteredResultsObj);
-        return filteredResultsValues;
-    } catch (err) {
-        console.error(`Error: ${err}`);
-        return [];
-    }
-}
-
-async function getCompleteFilmDetails(imdbID) {
-    const apiUrl = BASE_URL + `i=${imdbID}`;
-
-    try {
-        const response = await fetch(apiUrl);
-        const data = response.json();
-
-        if (data.Response === 'False') {
-            throw new Error(`Could not get film details for search ID: ${imdbID}`);
-        }
-
-        return data;
-    } catch (err) {
-        console.error(err);
-    }
-}
-
 // Handle when media item is liked/unliked
 document.getElementById('search-results').addEventListener('click', event => {
     const eventTarget = event.target;
-    const likedButtonMediaId = eventTarget.closest('button[data-imdb-id]').dataset.imdbId ?? null;
+
+    const likedButtonMediaId = eventTarget.dataset.imdbId ?? null;
     const clickedArticleId = eventTarget.closest('article.result').id ?? null;
 
     if (likedButtonMediaId) {
@@ -108,11 +51,11 @@ document.getElementById('search-results').addEventListener('click', event => {
         const matchingItemIndex = searchResults.findIndex(item => item.imdbID === likedButtonMediaId);
         // Toggle liked state of object in searchResults array
         searchResults[matchingItemIndex].liked = !searchResults[matchingItemIndex].liked;
-        // Update watchlist variable 
+        // Update watchlist variable with a class instance from searchResults that matches the index of media item that was liked
         watchlist = searchResults[matchingItemIndex].liked ? addToStoredWatchlist(searchResults[matchingItemIndex], watchlist) 
-                        : removeFromStoredWatchlist(searchResults[matchingItemIndex] , watchlist);
+                        : removeFromStoredWatchlist(searchResults[matchingItemIndex], watchlist);
     } else if (clickedArticleId) {
-        openModal(clickedArticleId);
+        openModal(searchResults, clickedArticleId);
     } else return;
 });
 
@@ -122,48 +65,3 @@ document.getElementById('modal').addEventListener('click', event => {
         closeModal();
     }
 });
-
-function openModal(mediaId) {
-    document.getElementById('modal').showModal();
-    document.body.style.overflow = 'hidden';
-
-    console.log(searchResults);
-
-    const someIndex = searchResults.findIndex(element => element.imdbID === mediaId);
-    const html = searchResults[someIndex].createModalDetailHtml();
-
-    document.getElementById('modal').replaceChildren(...html);
-}
-
-function closeModal() {
-    document.getElementById('modal').close();
-    document.body.style.overflow = 'auto';
-}
-
-// Initialize watchlist variable from local storage on page load
-function setupWatchlist() {
-    // Check for watchlist key in local storage
-    const storedWatchlist = localStorage.getItem('movieWatchlist');
-
-    if (storedWatchlist) {
-        // Set the array to the value of whatever's in local storage
-        return JSON.parse(storedWatchlist);
-    } else {
-        // Create the key in local storage
-        const newWatchlist = new Object();
-        localStorage.setItem('movieWatchlist', JSON.stringify(newWatchlist));
-        return newWatchlist;
-    }
-}
-
-function addToStoredWatchlist(mediaItem, movieWatchlist) {
-    movieWatchlist[mediaItem.imdbID] = mediaItem;
-    localStorage.setItem('movieWatchlist', JSON.stringify(movieWatchlist));
-    return movieWatchlist;
-}
-
-function removeFromStoredWatchlist(mediaItem, movieWatchlist) {
-    delete movieWatchlist[mediaItem.imdbID];
-    localStorage.setItem('movieWatchlist', JSON.stringify(movieWatchlist));
-    return movieWatchlist;
-}
