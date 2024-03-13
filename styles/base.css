@@ -1,5 +1,20 @@
 @import 'variables.css';
 
+/* CSS reset */
+*, 
+*:before, 
+*:after {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+
+body {
+    color: var(--text-color);
+    background-color: var(--bg-color);
+    font-family: 'Nunito Sans', sans-serif;
+}
+
 button {
     /* Reset default button style */
     margin: 0;
@@ -13,4 +28,48 @@ button {
     text-decoration: none; /* Remove any underline on text */
     min-height: 1em;
     min-width: 1em;
+}
+
+li {
+    list-style: none;
+}
+
+a:visited {
+    text-decoration: none;
+    color: inherit;
+}
+
+.footer {
+    border-top-left-radius: 15px;
+    border-top-right-radius: 15px;
+    position: fixed;
+    bottom: 0;
+    background-color: var(--purple-transparency);
+    padding: 1em;
+    box-shadow: 0em -0.3em 2em var(--secondary-shade-0);
+    backdrop-filter: blur(1em);
+    -webkit-backdrop-filter: blur(1em);
+    width: 100%;
+}
+
+.nav__menu {
+    display: flex;
+    justify-content: center;
+    gap: 3em;
+}
+
+.nav__icon {
+    color: var(--text-color);
+}
+
+.nav__icon, .nav__icon--current {
+    font-size: 2.5rem;
+
+    &:hover {
+        color:  var(--primary-color);
+    }
+}
+
+.nav__icon--current {
+    color: var(--accent-color);
 }
