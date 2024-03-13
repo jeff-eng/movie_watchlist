@@ -1,3 +1,9 @@
 :root {
-    
+    --text-color: #dce7fb;
+    --bg-color: #020816;
+    --primary-color: #84a7f2;
+    --secondary-color: #4f0f95;
+    --secondary-shade-0: #130A30;
+    --purple-transparency: rgba(58, 12, 108, 0.9);
+    --accent-color: #fc3d76;
 }
