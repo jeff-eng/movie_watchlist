@@ -44,17 +44,20 @@ class Media {
                 <source srcset="${this.Poster}" type="image/png">
                 <img class="result__img" src="${this.Poster}" alt="${this.Title} ${this.Type} poster">
             </picture>
-            <h2 class="result__title">${this.Title} (<time datetime="${this.Year}">${this.Year}</time>)</h2>
+            <div class="result__details">
+                <h2 class="result__title">${this.Title} (<time datetime="${this.Year}">${this.Year}</time>)</h2>
+                <span class="result__type">${this.Type} 
+                    <time class="result__runtime" datetime="PT${this.Runtime.split(' ')[0]}M">${this.Runtime}</time>
+                </span>
+                <span class="result__genre">${this.Genre}</span>
+                <span class="result__rating">
+                    <i class="fa-solid fa-star"></i>
+                    <span class="result__rating-value">${this.imdbRating}</span>
+                </span>
+            </div>
             <button class="result__like-btn" type="button">
-                <i class="${this.liked ? 'fa-solid' : 'fa-regular'} fa-heart" data-imdb-id="${this.imdbID}"></i>
+                <i class="fa-solid ${this.liked ? 'fa-heart' : 'fa-heart-circle-plus'}" data-imdb-id="${this.imdbID}"></i>
             </button>
-            <span class="result__type">${this.Type}</span>
-            <time datetime="PT${this.Runtime.split(' ')[0]}M">${this.Runtime}</time>
-            <span class="result__genre">${this.Genre}</span>
-            <span class="result__rating">
-                <i class="fa-solid fa-star"></i>
-                <span class="result__rating-value">${this.imdbRating}</span>
-            </span>
         `;
 
         return article;
