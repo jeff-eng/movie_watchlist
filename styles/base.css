@@ -12,7 +12,28 @@
 body {
     color: var(--text-color);
     background-color: var(--bg-color);
-    font-family: 'Nunito Sans', sans-serif;
+    font-family: 'Sofia Sans', sans-serif;
+    height: 100vh;
+    display: grid;
+    grid-template-columns: 1fr;
+    grid-template-rows: auto 1fr auto;
+    grid-template-areas:
+        'header'
+        'main'
+        'footer';
+
+    & .header {
+        grid-area: header;
+    }
+
+    & .main {
+        grid-area: main;
+        overflow: auto;
+    }
+
+    & .footer {
+        grid-area: footer;
+    }
 }
 
 button {
@@ -39,17 +60,17 @@ a:visited {
     color: inherit;
 }
 
+/* Mobile navigation */
+
 .footer {
     border-top-left-radius: 15px;
     border-top-right-radius: 15px;
-    position: fixed;
     bottom: 0;
     background-color: var(--purple-transparency);
     padding: 1em;
     box-shadow: 0em -0.3em 2em var(--secondary-shade-0);
     backdrop-filter: blur(1em);
     -webkit-backdrop-filter: blur(1em);
-    width: 100%;
 }
 
 .nav__menu {
