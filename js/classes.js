@@ -64,59 +64,55 @@ class Media {
     }
 
     createModalDetailHtml() {
-        const backButton = this.#createBasicElement('button', '', 'modal__back-btn');
-        const backIcon = this.#createBasicElement('i', '', 'fa-solid', 'fa-arrow-left');
-        backButton.appendChild(backIcon);
-
-        const mediaDivEl = this.#createBasicElement('div', '', 'media');
+        const mediaDivEl = this.#createBasicElement('div', 'modal__inner', 'modal__inner');
 
         // Use placeholder image for instances where poster is N/A
         if (this.Poster === 'N/A') {
             this.Poster = './../assets/imgholdr-image.png';
         }
 
+        // Set poster as background image of modal
+        mediaDivEl.style.backgroundImage = `linear-gradient(to bottom, rgba(2, 8, 22, 0.7), rgba(2, 8, 22)), url('${this.Poster}')`;
+
         mediaDivEl.innerHTML = `
-            <button class="modal__like-btn" type="button">
-                <i class="fa-regular fa-heart"></i>
-            </button>
-            <picture>
-                <source srcset="${this.Poster}" type="image/png">
-                <img class="media__poster" src="${this.Poster}" alt="${this.Title} ${this.Type} poster">
-            </picture>
-            <h2 class="media__title">${this.Title}</h2>
-            <time class="media__runtime" datetime="PT${this.Runtime.split(' ')[0]}M">${this.Runtime}</time>
-            <span class="media__rated">${this.Rated}</span>
-            <span class="media__rating">
-                <i class="fa-solid fa-star"></i>
-                <span class="media__rating-value">${this.imdbRating}</span>
-            </span>
-            <span class="media__genre">${this.Genre}</span>
+                <button class="modal__back-btn" type="button">
+                    <i class="fa-solid fa-arrow-left"></i>
+                </button>
+                <button class="modal__like-btn" type="button">
+                    <i class="fa-solid ${this.liked ? 'fa-heart' : 'fa-heart-circle-plus'}" data-imdb-id="${this.imdbID}"></i>
+                </button>
+            <header class="media__header">
+                <h2 class="media__title">${this.Title}</h2>
+                <h3 class="media__quick-info">
+                    <time class="media__runtime" datetime="PT${this.Runtime.split(' ')[0]}M">${this.Runtime}</time>
+                    <span class="media__rated">${this.Rated}</span>
+                    <span class="media__rating">
+                        <i class="fa-solid fa-star"></i>
+                        <span class="media__rating-value">${this.imdbRating}</span>
+                    </span>
+                </h3>
+                <h3 class="media__genre">${this.Genre}</h3>
+            </header>
             <p class="media__plot">${this.Plot}</p>
             <dl class="media__info">
-                <div>
-                    <dt class="media__term">Year</dt>
-                    <dd class="media__detail">${this.Year}</dd>
-                </div>
-                <div>
-                    <dt class="media__term">Director(s)</dt>
-                    <dd class="media__detail">${this.Director}</dd> 
-                </div>
-                <div>
-                    <dt class="media__term">Writer(s)</dt>
-                    <dd class="media__detail">${this.Writer}</dd>
-                </div>
-                <div>
-                    <dt class="media__term">Actor(s)</dt>
-                    <dd class="media__detail">${this.Actors}</dd>
-                </div>
-                <div>
-                    <dt class="media__term">Box Office</dt>
-                    <dd class="media__detail">${this.BoxOffice ?? 'N/A'}</dd>
-                </div>
+                <dt class="media__term">Year</dt>
+                <dd class="media__detail">${this.Year}</dd>
+
+                <dt class="media__term">Director(s)</dt>
+                <dd class="media__detail">${this.Director}</dd>
+
+                <dt class="media__term">Writer(s)</dt>
+                <dd class="media__detail">${this.Writer}</dd>
+
+                <dt class="media__term">Actor(s)</dt>
+                <dd class="media__detail">${this.Actors}</dd>
+
+                <dt class="media__term">Box Office</dt>
+                <dd class="media__detail">${this.BoxOffice ?? 'N/A'}</dd>
             </dl>
         `;
 
-        return [backButton, mediaDivEl];
+        return [mediaDivEl];
     }
 }
 
