@@ -86,14 +86,20 @@ class Media {
             <header class="media__header">
                 <h2 class="media__title">${this.Title}</h2>
                 <h3 class="media__quick-info">
-                    <time class="media__runtime" datetime="PT${this.Runtime.split(' ')[0]}M">${this.Runtime}</time>
-                    <span class="media__rated">${this.Rated}</span>
+                    <time class="media__runtime" datetime="PT${this.Runtime.split(' ')[0]}M">
+                        <i class="fa-regular fa-clock"></i>
+                        ${this.Runtime}
+                    </time>
+                    <span class="media__rated">
+                        <i class="fa-regular fa-circle-check"></i>    
+                        ${this.Rated}
+                    </span>
                     <span class="media__rating">
                         <i class="fa-solid fa-star"></i>
                         <span class="media__rating-value">${this.imdbRating}</span>
                     </span>
                 </h3>
-                <h3 class="media__genre">${this.Genre}</h3>
+                <h3 class="media__genre"><i class="fa-solid fa-clapperboard"></i> ${this.Genre}</h3>
             </header>
             <p class="media__plot">${this.Plot}</p>
             <dl class="media__info">
