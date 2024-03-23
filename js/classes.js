@@ -75,12 +75,14 @@ class Media {
         mediaDivEl.style.backgroundImage = `linear-gradient(to bottom, rgba(2, 8, 22, 0.7), rgba(2, 8, 22)), url('${this.Poster}')`;
 
         mediaDivEl.innerHTML = `
+            <div class="modal__btn-wrapper">
                 <button class="modal__back-btn" type="button">
                     <i class="fa-solid fa-arrow-left"></i>
                 </button>
                 <button class="modal__like-btn" type="button">
                     <i class="fa-solid ${this.liked ? 'fa-heart' : 'fa-heart-circle-plus'}" data-imdb-id="${this.imdbID}"></i>
                 </button>
+            </div>
             <header class="media__header">
                 <h2 class="media__title">${this.Title}</h2>
                 <h3 class="media__quick-info">
