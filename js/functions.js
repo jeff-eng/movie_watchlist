@@ -79,17 +79,18 @@ async function getCompleteFilmDetails(baseUrl, imdbID) {
 }
 
 function openModal(searchResults, mediaId) {
-    document.getElementById('modal').showModal();
-    document.body.style.overflow = 'hidden';
-
+    const modal = document.getElementById('modal');
     const index = searchResults.findIndex(element => element.imdbID === mediaId);
     const modalHtml = searchResults[index].createModalDetailHtml();
-
-    document.getElementById('modal').replaceChildren(...modalHtml);
+    
+    modal.showModal();
+    modal.replaceChildren(...modalHtml);
+    document.body.style.overflow = 'hidden';
 }
 
 function closeModal() {
-    document.getElementById('modal').close();
+    const modal = document.getElementById('modal');
+    modal.close();
     document.body.style.overflow = 'auto';
 }
 

@@ -15,12 +15,17 @@
     grid-template-columns: 1fr 2.5fr 0.5fr;
     grid-template-rows: auto;
     column-gap: 1.3em;
+    min-height: 160px;
     max-width: 400px;
     background-color: var(--result-bg-color);
     border-radius: 0.5em;
+    animation: fade-up 0.5s;
+    transition: 0.3s;
 
     &:hover {
         background-color: var(--hover-shade);
+        transform: scale(1.03);
+        cursor: pointer;
     }
 }
 
@@ -62,12 +67,13 @@
 
     .fa-heart-circle-plus {
         color: var(--text-color);
+        transition: 0.3s ease-in-out;
 
         &:hover {
             color: var(--accent-color);
+            transform: translateY(-3px);
         }
     }
-
 
     .result__icon--liked {
         color: var(--secondary-color);
@@ -77,4 +83,16 @@
 .result__runtime {
     margin-left: 1em;
     text-transform: lowercase;
+}
+
+@keyframes fade-up {
+    0% {
+        opacity: 0;
+        transform: translateY(30px);
+    }
+
+    100% {
+        opacity: 1;
+        transform: translateY(0px);
+    }
 }
