@@ -120,6 +120,10 @@
             border-top-right-radius: calc(var(--search-bar-height));
             border-bottom-right-radius: calc(var(--search-bar-height));            
             background-color: var(--hover-shade);
+            
+            & :hover {
+                background-color: var(--accent-dark-shade);
+            }
 
             & i {
                 font-size: 1rem;
