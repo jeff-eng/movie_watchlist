@@ -6,6 +6,7 @@ const apiKey = import.meta.env.VITE_API_KEY;
 const BASE_URL = `http://www.omdbapi.com/?apikey=${apiKey}&`;
 const searchForm = document.getElementById('search__form');
 const searchInput = document.getElementById('search__input');
+const searchButton = document.getElementById('search__button');
 
 let recentSearchTerm = '';
 let watchlist = setupWatchlist();
@@ -64,4 +65,13 @@ document.getElementById('modal').addEventListener('click', event => {
     if (event.target.closest('.modal__back-btn')) {
         closeModal();
     }
+});
+
+// Add/remove class that creates outline on focus/blur events on search input
+searchInput.addEventListener('focus', () => {
+    searchButton.classList.toggle('search__form--focused');
+});
+
+searchInput.addEventListener('blur', () => {
+    searchButton.classList.toggle('search__form--focused');
 });
