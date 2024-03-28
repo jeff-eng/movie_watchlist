@@ -137,9 +137,9 @@ a:visited {
 }
 
 /* Shared styling for watchlist and index results rendering */
-
 .search-results, .watchlist {
     display: grid;
+    padding: 1em;
     gap: 0.5em;
     justify-content: center;
     grid-template-rows: auto;
