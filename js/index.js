@@ -7,15 +7,21 @@ const BASE_URL = `http://www.omdbapi.com/?apikey=${apiKey}&`;
 const searchForm = document.getElementById('search__form');
 const searchInput = document.getElementById('search__input');
 const searchButton = document.getElementById('search__button');
+const clearSearchInputButton = document.getElementById('search__clear');
 
 let recentSearchTerm = '';
 let watchlist = setupWatchlist();
 let searchResults = [];
 
 // Disable search button when input is empty
-searchInput.addEventListener('input', () => {
-    const searchInput = document.getElementById('search__input');
-    const searchButton = document.getElementById('search__button');
+searchInput.addEventListener('input', event => {
+    // console.log(event.target.value);
+
+    if (event.target.value.trim()) {
+        clearSearchInputButton.style.display = 'block';
+    } else {
+        clearSearchInputButton.style.display = 'none';
+    }
 
     searchButton.disabled = searchInput.value.length > 0 ? false : true;
 });
@@ -45,7 +51,15 @@ document.getElementById('search-results').addEventListener('click', event => {
     const eventTarget = event.target;
 
     const likedButtonMediaId = eventTarget.dataset.imdbId ?? null;
-    const clickedArticleId = eventTarget.closest('article.result').id ?? null;
+    const clickedArticle = eventTarget.closest('article.result');
+
+    // Screen out clicked elements that aren't articles
+    if (!clickedArticle) {
+        return;
+    }
+
+    // Get article id
+    const clickedArticleId = clickedArticle.id;
 
     if (likedButtonMediaId) {
         // Get index of matching item from search results
@@ -70,8 +84,17 @@ document.getElementById('modal').addEventListener('click', event => {
 // Add/remove class that creates outline on focus/blur events on search input
 searchInput.addEventListener('focus', () => {
     searchButton.classList.toggle('search__form--focused');
+    
 });
 
 searchInput.addEventListener('blur', () => {
     searchButton.classList.toggle('search__form--focused');
+});
+
+// Listen for event on clear search button
+document.getElementById('search__clear').addEventListener('click', () => {
+    // event.preventDefault();
+    searchInput.value = null;
+    console.log('clicked');
+    clearSearchInputButton.style.display = 'none';
 });
