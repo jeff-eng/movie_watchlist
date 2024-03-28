@@ -36,7 +36,7 @@ class Media {
         
         // Use placeholder image for instances where poster is N/A
         if (this.Poster === 'N/A') {
-            this.Poster = './../assets/imgholdr-image.png';
+            this.Poster = './assets/imgholdr-image.png';
         }
 
         article.innerHTML = `
@@ -68,7 +68,7 @@ class Media {
 
         // Use placeholder image for instances where poster is N/A
         if (this.Poster === 'N/A') {
-            this.Poster = './../assets/imgholdr-image.png';
+            this.Poster = './assets/imgholdr-image.png';
         }
 
         // Set poster as background image of modal
