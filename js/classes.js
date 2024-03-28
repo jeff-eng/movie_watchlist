@@ -80,7 +80,7 @@ class Media {
                     <i class="fa-solid fa-arrow-left"></i>
                 </button>
                 <button class="modal__like-btn" type="button">
-                    <i class="fa-solid ${this.liked ? 'fa-heart' : 'fa-heart-circle-plus'}" data-imdb-id="${this.imdbID}"></i>
+                    <i class="fa-solid ${this.liked ? 'fa-heart-circle-minus' : 'fa-heart-circle-plus'}" data-imdb-id="${this.imdbID}"></i>
                 </button>
             </div>
             <header class="media__header">
