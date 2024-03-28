@@ -89,18 +89,6 @@ a:visited {
         grid-row: 2;
         grid-column: 2 / 3;
     }
-
-    .search {
-        grid-row: 3;
-        grid-column: 1 / -1;
-    }
-
-    /* Applies to watchlist page */
-    .header__subtitle {
-        grid-row: 3;
-        grid-column: 1 / 2;
-        color: var(--primary-color);
-    }
 }
 
 .footer {
