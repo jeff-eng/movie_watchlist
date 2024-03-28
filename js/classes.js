@@ -56,7 +56,7 @@ class Media {
                 </span>
             </div>
             <button class="result__like-btn" type="button">
-                <i class="fa-solid ${this.liked ? 'fa-heart' : 'fa-heart-circle-plus'}" data-imdb-id="${this.imdbID}"></i>
+                <i class="fa-solid ${this.liked ? 'fa-heart-circle-minus' : 'fa-heart-circle-plus'}" data-imdb-id="${this.imdbID}"></i>
             </button>
         `;
 
