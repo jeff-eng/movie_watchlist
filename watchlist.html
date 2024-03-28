@@ -20,14 +20,15 @@
     <link href="https://fonts.googleapis.com/css2?family=Sofia+Sans:ital,wght@0,1..1000;1,1..1000&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="./styles/base.css">
     <link rel="stylesheet" href="./styles/modal.css">
+    <link rel="stylesheet" href="./styles/watchlist.css">
 </head>
 
 <body>
     <header class="header">
+        <img class="header__logo" src="./assets/moviemate-logo.svg" alt="logo">
         <h1 class="header__title">MovieMate</h1>
-        <h2 class="header__subtitle">Watchlist</h2>
+        <h2 class="header__subtitle">My Watchlist</h2>
     </header>
-
     <main>
 
         <section class="watchlist" id="watchlist">
@@ -50,10 +51,14 @@
         <nav class="footer__nav">
             <ul class="nav__menu">
                 <li class="nav__item">
-                    <a href="/index.html">Home</a>
+                    <a href="/index.html" aria-label="Home">
+                        <i class="fa-solid fa-house nav__icon"></i>
+                    </a>
                 </li>
                 <li class="nav__item">
-                    <a href="/watchlist.html">My Watchlist</a>
+                    <a href="/watchlist.html" aria-label="Watchlist">
+                        <i class="fa-regular fa-heart nav__icon--current"></i>
+                    </a>
                 </li>
             </ul>
         </nav>
