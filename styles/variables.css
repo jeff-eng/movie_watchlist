@@ -5,7 +5,11 @@
     --primary-color: #84a7f2;
     --secondary-color: #4f0f95;
     --secondary-shade-0: #130A30;
+    --secondary-shade-transparency: rgba(19, 10, 48, 0.4);
     --purple-transparency: rgba(58, 12, 108, 0.9);
     --accent-color: #fc3d76;
+    --accent-dark-shade: #b02a52;
     --hover-shade: #1C2742;
+
+    --search-bar-height: 2em;
 }
