@@ -135,3 +135,90 @@ a:visited {
 .nav__icon--current {
     color: var(--accent-color);
 }
+
+/* Shared styling for watchlist and index results rendering */
+
+.search-results, .watchlist {
+    display: grid;
+    gap: 0.5em;
+    justify-content: center;
+    grid-template-rows: auto;
+    max-height: fit-content;
+}
+
+.result {
+    padding: 0.75em 1em;
+    display: grid;
+    margin: 0.25em 1.5em;
+    grid-template-columns: 1fr 2.5fr 0.5fr;
+    grid-template-rows: auto;
+    column-gap: 1.3em;
+    min-height: 160px;
+    max-width: 400px;
+    background-color: var(--result-bg-color);
+    border-radius: 0.5em;
+    animation: fade-up 0.5s;
+    transition: 0.3s;
+
+    &:hover {
+        background-color: var(--hover-shade);
+        transform: scale(1.03);
+        cursor: pointer;
+    }
+}
+
+.result__img {
+    max-width: 85px;
+    grid-column: 1 / 2;
+    grid-row: 1 / -1;
+    border-radius: 0.3em;
+}
+
+.result__details {
+    grid-column: 2 / 3;
+    grid-row: 1 / -1;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    font-size: 0.8rem;
+    color: var(--primary-color);
+    font-weight: 400;
+
+    & .fa-star {
+        color: var(--accent-color);
+    }
+}
+
+.result__title {
+    color: var(--text-color);
+    font-size: clamp(1.25rem, 1.75vw, 1.5rem);
+    font-weight: 800;
+}
+
+.result__type {
+    text-transform: capitalize;
+}
+
+.result__like-btn {
+    align-self: self-start;
+    font-size: 1.5rem;
+
+    .fa-heart-circle-plus {
+        color: var(--text-color);
+        transition: 0.3s ease-in-out;
+
+        &:hover {
+            color: var(--accent-color);
+            transform: translateY(-3px);
+        }
+    }
+
+    .result__icon--liked {
+        color: var(--secondary-color);
+    }
+}
+
+.result__runtime {
+    margin-left: 1em;
+    text-transform: lowercase;
+}
