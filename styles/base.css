@@ -61,6 +61,40 @@ a:visited {
 }
 
 /* Mobile navigation */
+.header {
+    position: sticky;
+    display: grid;
+    padding: 1em 0 0.5em;
+    grid-template: repeat(3, auto) / 1fr 2fr 1fr;
+    align-items: center;
+    background-color: var(--secondary-shade-0);
+    backdrop-filter: blur(1em);
+    -webkit-backdrop-filter: blur(1em);
+    box-shadow: 0 0.3em 2em var(--bg-color);
+
+    .header__logo,
+    .header__title
+    {
+        justify-self: center;
+    }
+
+    .header__logo {
+        max-width: 6em;
+        grid-row: 1;
+        grid-column: 2 / 3;
+    }
+
+    .header__title {
+        font-size: 1.75rem;
+        grid-row: 2;
+        grid-column: 2 / 3;
+    }
+
+    .search {
+        grid-row: 3;
+        grid-column: 1 / -1;
+    }
+}
 
 .footer {
     border-top-left-radius: 15px;
