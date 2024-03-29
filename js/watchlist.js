@@ -18,17 +18,23 @@ document.getElementById('watchlist').addEventListener('click', event => {
     const clickedArticleId = clickedArticle.id;
 
     if (likedButtonMediaId) {
-        // Update the watchlist with either addToStoredWatchlist or removeFromStoredWatchlist
         watchlist = removeFromStoredWatchlist(watchlist[likedButtonMediaId], watchlist);
-        // Remove item from DOM
-        document.getElementById(likedButtonMediaId).remove();
+        
+        const watchlistItemToRemove = document.getElementById(likedButtonMediaId);
+        // Fade out and shrink animation
+        watchlistItemToRemove.style.animationPlayState = 'running';
+        // Remove item from DOM after animation ends
+        watchlistItemToRemove.addEventListener('animationend', () => {
+            watchlistItemToRemove.remove();
+        });
     } else if (clickedArticleId) {
+        const modal = document.getElementById('modal');
         // Open modal
-        document.getElementById('modal').showModal();
+        modal.showModal();
         // Create HTML 
         const html = watchlist[clickedArticleId].createModalDetailHtml();
         // Insert into DOM
-        document.getElementById('modal').replaceChildren(...html);
+        modal.replaceChildren(...html);
     } else return;
 });
 
