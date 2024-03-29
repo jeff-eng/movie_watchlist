@@ -1,23 +1,31 @@
-import { openModal, closeModal } from './functions.js';
+import { closeModal } from './functions.js';
 import { removeFromStoredWatchlist, setupWatchlist, renderWatchlist } from './watchlist-functions.js';
 
+// Load in watchlist dictionary
 let watchlist = setupWatchlist();
 
 document.getElementById('watchlist').addEventListener('click', event => {
     const eventTarget = event.target;
 
     const likedButtonMediaId = eventTarget.dataset.imdbId ?? null;
-    const clickedArticleId = eventTarget.closest('article.result').id ?? null;
+    const clickedArticle = eventTarget.closest('article.result');
+
+    // Screen out clicked elements that aren't articles
+    if (!clickedArticle) {
+        return;
+    }
+
+    const clickedArticleId = clickedArticle.id;
 
     if (likedButtonMediaId) {
         // Update the watchlist with either addToStoredWatchlist or removeFromStoredWatchlist
         watchlist = removeFromStoredWatchlist(watchlist[likedButtonMediaId], watchlist);
-        // Remove item from  DOM
+        // Remove item from DOM
         document.getElementById(likedButtonMediaId).remove();
     } else if (clickedArticleId) {
         // Open modal
         document.getElementById('modal').showModal();
-        // Create HTML
+        // Create HTML 
         const html = watchlist[clickedArticleId].createModalDetailHtml();
         // Insert into DOM
         document.getElementById('modal').replaceChildren(...html);
