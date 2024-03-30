@@ -51,6 +51,10 @@ button {
     min-width: 1em;
 }
 
+a:link {
+    text-decoration: none;
+}
+
 li {
     list-style: none;
 }
@@ -219,4 +223,9 @@ a:visited {
 .result__runtime {
     margin-left: 1em;
     text-transform: lowercase;
+}
+
+/* Utility classes */
+.hide {
+    display: none;
 }
