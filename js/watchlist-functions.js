@@ -45,12 +45,14 @@ function renderWatchlistHtml(watchlist) {
 
 function renderWatchlist(watchlist) {    
     const watchlistSectionEl = document.getElementById('watchlist');
+    const emptyListSectionEl = document.getElementById('empty-list');
 
     if (Object.keys(watchlist).length) {
         watchlistSectionEl.replaceChildren(...renderWatchlistHtml(watchlist));
+        emptyListSectionEl.classList.add('hide');
     } else {
         // Render an empty watchlist message
-        document.getElementById('empty-list').classList.remove('hide');
+        emptyListSectionEl.classList.remove('hide');
     }
 }
 
