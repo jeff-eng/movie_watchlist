@@ -8,6 +8,44 @@
     animation: fade-and-shrink 0.8s forwards paused;
 }
 
+.watchlist {
+    margin: 1em;
+}
+
+.empty-list {
+    width: 75vw;
+    margin: auto;
+    gap: 2em;
+
+    & .empty-list__heading {
+        font-size: clamp(1.5rem, 6vw, 2.5rem);
+        font-weight: 200;
+        text-align: center;
+        margin: 1em;
+    }
+
+    & .empty-list__link {
+        margin: auto;
+        padding: 0.5em 1em;
+        text-align: center;
+        font-size: 1.25rem;
+        text-align: center;
+        text-decoration: none;
+        background-color: var(--secondary-shade-0);
+        border-radius: 1em;
+
+        &:hover {
+            color: var(--accent-color);
+        }
+    }
+
+    & .empty-list__illustration {
+        margin: 1em auto;
+        width: 100%;
+        opacity: 75%;
+    }
+}
+
 @keyframes fade-and-shrink {
     0% {
         opacity: 1;
