@@ -40,18 +40,19 @@ function removeFromStoredWatchlist(mediaItem, movieWatchlist) {
 }
 
 function renderWatchlistHtml(watchlist) {
-    // console.log(Object.values(watchlist));
     return Object.values(watchlist).map(item => item.createResultHtml());
 }
 
 function renderWatchlist(watchlist) {    
     const watchlistSectionEl = document.getElementById('watchlist');
-    
-    if (watchlist) {
+    const emptyListSectionEl = document.getElementById('empty-list');
+
+    if (Object.keys(watchlist).length) {
         watchlistSectionEl.replaceChildren(...renderWatchlistHtml(watchlist));
+        emptyListSectionEl.classList.add('hide');
     } else {
         // Render an empty watchlist message
-        watchlistSectionEl.innerHTML = '<h2>Time to add stuff to your watchlist</h2>';
+        emptyListSectionEl.classList.remove('hide');
     }
 }
 
