@@ -27,6 +27,8 @@ document.getElementById('watchlist').addEventListener('click', event => {
         watchlistItemToRemove.addEventListener('animationend', () => {
             watchlistItemToRemove.remove();
         });
+        // Re-render watchlist
+        renderWatchlist(watchlist);
     } else if (clickedArticleId) {
         const modal = document.getElementById('modal');
         // Open modal
@@ -40,9 +42,27 @@ document.getElementById('watchlist').addEventListener('click', event => {
 
 // Modal back button event listener - close modal
 document.getElementById('modal').addEventListener('click', event => {
-    if (event.target.closest('.modal__back-btn')) {
+    const eventTarget = event.target;
+    const imdbIdFromLikedBtn = eventTarget.dataset.imdbId;
+
+    if (eventTarget.closest('.modal__back-btn')) {
         closeModal();
+    } else if (imdbIdFromLikedBtn) {
+        // Update watchlist variable
+        watchlist = removeFromStoredWatchlist(watchlist[imdbIdFromLikedBtn], watchlist);
+        // Get reference to DOM element in watchlist section to remove
+        const watchlistItemToRemove = document.getElementById(imdbIdFromLikedBtn);
+        // Fade out and shrink animation
+        watchlistItemToRemove.style.animationPlayState = 'running';
+        // Remove item from DOM after animation ends
+        watchlistItemToRemove.addEventListener('animationend', () => {
+            watchlistItemToRemove.remove();
+        });
+        closeModal();
+        renderWatchlist(watchlist);
     }
+
+
 });
 
 // Render watchlist items to the DOM
