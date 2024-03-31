@@ -57,6 +57,20 @@
         <section class="search-results" id="search-results">
             <!-- Results populated dynamically -->
         </section>
+
+        <!-- Display when there are no search results displayed -->
+        <section class="placeholder" id="search-placeholder">
+            <p class="placeholder__message">
+                Search for movies and shows with MovieMate. Then add favorite titles to your watchlist!  
+            </p>
+            <img class="placeholder__illustration" src="assets/movie-watching.svg" alt="two people sitting on couch watching movie">
+        </section>
+
+        <!-- Display when no search results returned and rendered -->
+        <section class="placeholder hide" id="no-results-placeholder">
+            <p class="placeholder__message" id="placeholder__no-results-message"></p>
+            <img class="placeholder__illustration" src="assets/void-graphic.svg" alt="person staring into the void">
+        </section>
     </main>
     
     <!-- Modal for viewing details of selected media -->

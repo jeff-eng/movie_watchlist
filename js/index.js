@@ -38,11 +38,18 @@ searchForm.addEventListener('submit', async event => {
 
     if (searchResults.length) {
         const articles = searchResults.map(resultObj => resultObj.createResultHtml());
+        // Render search results to the DOM
         document.getElementById('search-results').replaceChildren(...articles);
+        // Hide the placeholders
+        document.getElementById('search-placeholder').classList.add('hide');
+        document.getElementById('no-results-placeholder').classList.add('hide');
         // Save recent search query so user doesn't try to search same term twice in a row
         recentSearchTerm = searchQuery;
     } else {
-        document.getElementById('search-results').innerHTML = '<h2>No results found.</h2>';
+        document.getElementById('placeholder__no-results-message').textContent = 
+            `No results found for '${searchQuery}'. Try modifying your search.`;
+        document.getElementById('search-placeholder').classList.add('hide');
+        document.getElementById('no-results-placeholder').classList.remove('hide');
     }
 });
 
@@ -93,8 +100,8 @@ searchInput.addEventListener('blur', () => {
 
 // Listen for event on clear search button
 document.getElementById('search__clear').addEventListener('click', () => {
-    // event.preventDefault();
     searchInput.value = null;
-    console.log('clicked');
+    document.getElementById('search-placeholder').classList.remove('hide');
+    document.getElementById('no-results-placeholder').classList.add('hide');
     clearSearchInputButton.style.display = 'none';
 });
