@@ -225,6 +225,27 @@ a:visited {
     text-transform: lowercase;
 }
 
+.placeholder {
+    display: flex;
+    flex-direction: column;
+    gap: 2em;
+    width: 75vw;
+    margin: auto;
+
+    & .placeholder__heading {
+        font-size: clamp(1.5rem, 6vw, 2.5rem);
+        font-weight: 200;
+        text-align: center;
+        margin: 1em;
+    }
+
+    & .placeholder__illustration {
+        margin: 1em auto;
+        max-width: 75vw;
+        opacity: 75%;
+    }
+}
+
 /* Utility classes */
 .hide {
     display: none;
