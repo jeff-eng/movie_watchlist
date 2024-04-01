@@ -26,6 +26,7 @@ searchInput.addEventListener('input', event => {
     searchButton.disabled = searchInput.value.length > 0 ? false : true;
 });
 
+// Search - submit event listener
 searchForm.addEventListener('submit', async event => {
     event.preventDefault();
 
@@ -76,6 +77,11 @@ document.getElementById('search-results').addEventListener('click', event => {
         // Update watchlist variable with a class instance from searchResults that matches the index of media item that was liked
         watchlist = searchResults[matchingItemIndex].liked ? addToStoredWatchlist(searchResults[matchingItemIndex], watchlist) 
                         : removeFromStoredWatchlist(searchResults[matchingItemIndex], watchlist);
+        
+        // Change icon to fa-heart-circle-minus OR fa-heart-circle-plus depending on like state
+        const clickedIcon = document.querySelector(`[data-imdb-id="${likedButtonMediaId}"]`);
+        searchResults[matchingItemIndex].liked ? clickedIcon.classList.replace('fa-heart-circle-plus', 'fa-heart-circle-minus') 
+                                                 : clickedIcon.classList.replace('fa-heart-circle-minus', 'fa-heart-circle-plus');
     } else if (clickedArticleId) {
         openModal(searchResults, clickedArticleId);
     } else return;
