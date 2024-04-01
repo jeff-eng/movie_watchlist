@@ -78,8 +78,8 @@ document.getElementById('search-results').addEventListener('click', event => {
         watchlist = searchResults[matchingItemIndex].liked ? addToStoredWatchlist(searchResults[matchingItemIndex], watchlist) 
                         : removeFromStoredWatchlist(searchResults[matchingItemIndex], watchlist);
         
-        // Change icon to fa-heart-circle-minus OR fa-heart-circle-plus depending on like state
-        const clickedIcon = document.querySelector(`[data-imdb-id="${likedButtonMediaId}"]`);
+        // Change icon to fa-heart-circle-minus OR fa-heart-circle-plus depending on liked state
+        const clickedIcon = document.querySelector(`.result__like-btn > i[data-imdb-id="${likedButtonMediaId}"]`);
         searchResults[matchingItemIndex].liked ? clickedIcon.classList.replace('fa-heart-circle-plus', 'fa-heart-circle-minus') 
                                                  : clickedIcon.classList.replace('fa-heart-circle-minus', 'fa-heart-circle-plus');
     } else if (clickedArticleId) {
@@ -89,8 +89,29 @@ document.getElementById('search-results').addEventListener('click', event => {
 
 // Modal back button event listener - close modal
 document.getElementById('modal').addEventListener('click', event => {
-    if (event.target.closest('.modal__back-btn')) {
+    const eventTarget = event.target;
+    const modalLikedButtonMediaId = event.target.dataset.imdbId;
+
+    if (eventTarget.closest('.modal__back-btn')) {
         closeModal();
+    } else if (modalLikedButtonMediaId) {
+
+        // Get index of matching item from search results
+        const matchingItemIndex = searchResults.findIndex(item => item.imdbID === modalLikedButtonMediaId);
+        // Toggle liked state of object in searchResults array
+        searchResults[matchingItemIndex].liked = !searchResults[matchingItemIndex].liked;
+        // Update watchlist variable with a class instance from searchResults that matches the index of media item that was liked
+        watchlist = searchResults[matchingItemIndex].liked ? addToStoredWatchlist(searchResults[matchingItemIndex], watchlist) 
+                        : removeFromStoredWatchlist(searchResults[matchingItemIndex], watchlist);
+        
+        // Change modal icon to fa-heart-circle-minus OR fa-heart-circle-plus depending on liked state
+        const modalIcon = document.querySelector(`.modal__like-btn > i[data-imdb-id="${modalLikedButtonMediaId}"]`);
+        const resultIcon = document.querySelector(`.result__like-btn > i[data-imdb-id="${modalLikedButtonMediaId}"]`);
+        searchResults[matchingItemIndex].liked ? modalIcon.classList.replace('fa-heart-circle-plus', 'fa-heart-circle-minus') 
+                                                  : modalIcon.classList.replace('fa-heart-circle-minus', 'fa-heart-circle-plus');
+        // Change the search result icon based on liked state
+        searchResults[matchingItemIndex].liked ? resultIcon.classList.replace('fa-heart-circle-plus', 'fa-heart-circle-minus') 
+        : resultIcon.classList.replace('fa-heart-circle-minus', 'fa-heart-circle-plus');                                             
     }
 });
 
