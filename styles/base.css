@@ -214,10 +214,6 @@ a:visited {
             transform: scale(1.2);
         }
     }
-
-    .result__icon--liked {
-        color: var(--secondary-color);
-    }
 }
 
 .result__runtime {
