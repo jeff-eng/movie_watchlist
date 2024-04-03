@@ -4,9 +4,9 @@
 .modal {
     margin: auto;
     width: 80vw;
-    height: 550px;
+    height: 600px;
     max-width: 500px;
-    max-height: 700px;
+    max-height: 750px;
     border: 3px solid var(--purple-transparency);
     background-color: var(--bg-color);
 }

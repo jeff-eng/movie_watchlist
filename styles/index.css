@@ -33,7 +33,7 @@
     
         .search__input:focus {
             outline: 2px solid var(--accent-color);
-            width: 100%;
+            width: 80%;
             outline-offset: -2px;
         }
 
