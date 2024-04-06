@@ -119,9 +119,11 @@ a:visited {
 
 .nav__icon, .nav__icon--current {
     font-size: 2.5rem;
+    transition: transform 0.3s ease-in-out;
 
     &:hover {
         color:  var(--primary-color);
+        transform: translateY(-5px);
     }
 }
 
