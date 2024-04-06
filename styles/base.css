@@ -273,4 +273,5 @@ a:visited {
 /* Utility classes */
 .hide {
     display: none;
+    visibility: hidden;
 }
