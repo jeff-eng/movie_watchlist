@@ -1,4 +1,5 @@
 @import 'variables.css';
+@import 'animations.css';
 
 /* CSS reset */
 *, 
@@ -258,7 +259,19 @@ a:visited {
     }
 }
 
+/* Loading animation while running search */
+.loader {
+    border: 1em solid var(--text-color);
+    border-top: 1em solid var(--purple-transparency);
+    border-radius: 50%;
+    width: 120px;
+    height: 120px;
+    animation: spin 2s linear infinite;
+    margin: auto;
+}
+
 /* Utility classes */
 .hide {
     display: none;
+    visibility: hidden;
 }

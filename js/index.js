@@ -7,6 +7,7 @@ const BASE_URL = `http://www.omdbapi.com/?apikey=${apiKey}&`;
 const searchForm = document.getElementById('search__form');
 const searchInput = document.getElementById('search__input');
 const searchButton = document.getElementById('search__button');
+const searchResultsSection = document.getElementById('search-results');
 const clearSearchInputButton = document.getElementById('search__clear');
 
 let recentSearchTerm = '';
@@ -15,8 +16,6 @@ let searchResults = [];
 
 // Disable search button when input is empty
 searchInput.addEventListener('input', event => {
-    // console.log(event.target.value);
-
     if (event.target.value.trim()) {
         clearSearchInputButton.style.display = 'block';
     } else {
@@ -34,28 +33,32 @@ searchForm.addEventListener('submit', async event => {
     const searchQuery = searchFormData.get('search-string').toLowerCase();
 
     if (searchQuery !== recentSearchTerm) {
+        loadingAnimation(true);
         searchResults = await getSearchResults(BASE_URL, searchQuery, watchlist);
     } else return;
 
     if (searchResults.length) {
+        // End loading animation
+        loadingAnimation(false);
         const articles = searchResults.map(resultObj => resultObj.createResultHtml());
         // Render search results to the DOM
-        document.getElementById('search-results').replaceChildren(...articles);
+        searchResultsSection.replaceChildren(...articles);
         // Hide the placeholders
-        document.getElementById('search-placeholder').classList.add('hide');
-        document.getElementById('no-results-placeholder').classList.add('hide');
+        hidePlaceholders()
         // Save recent search query so user doesn't try to search same term twice in a row
         recentSearchTerm = searchQuery;
     } else {
+        // End loading animation
+        loadingAnimation(false);
         document.getElementById('placeholder__no-results-message').textContent = 
             `No results found for '${searchQuery}'. Try modifying your search.`;
-        document.getElementById('search-placeholder').classList.add('hide');
-        document.getElementById('no-results-placeholder').classList.remove('hide');
+        // document.getElementById('search-placeholder').classList.add('hide');
+        showNoResultsPlaceholder();
     }
 });
 
 // Handle when media item is liked/unliked
-document.getElementById('search-results').addEventListener('click', event => {
+searchResultsSection.addEventListener('click', event => {
     const eventTarget = event.target;
 
     const likedButtonMediaId = eventTarget.dataset.imdbId ?? null;
@@ -95,7 +98,6 @@ document.getElementById('modal').addEventListener('click', event => {
     if (eventTarget.closest('.modal__back-btn')) {
         closeModal();
     } else if (modalLikedButtonMediaId) {
-
         // Get index of matching item from search results
         const matchingItemIndex = searchResults.findIndex(item => item.imdbID === modalLikedButtonMediaId);
         // Toggle liked state of object in searchResults array
@@ -118,17 +120,41 @@ document.getElementById('modal').addEventListener('click', event => {
 // Add/remove class that creates outline on focus/blur events on search input
 searchInput.addEventListener('focus', () => {
     searchButton.classList.toggle('search__form--focused');
-    
 });
 
 searchInput.addEventListener('blur', () => {
     searchButton.classList.toggle('search__form--focused');
 });
 
-// Listen for event on clear search button
+// Reset search
 document.getElementById('search__clear').addEventListener('click', () => {
     searchInput.value = null;
-    document.getElementById('search-placeholder').classList.remove('hide');
-    document.getElementById('no-results-placeholder').classList.add('hide');
+    searchResultsSection.innerHTML = '';
+    hidePlaceholders();
+    showSearchPlaceholder();
     clearSearchInputButton.style.display = 'none';
 });
+
+function loadingAnimation(isLoading) {
+    const loaderDiv = document.getElementById('loader');
+    if (isLoading) {
+        loaderDiv.classList.remove('hide');
+        hidePlaceholders();
+    } else {
+        loaderDiv.classList.add('hide');
+        hidePlaceholders();
+    }
+}
+
+function showNoResultsPlaceholder() {
+    document.getElementById('no-results-placeholder').classList.remove('hide');
+}
+
+function showSearchPlaceholder() {
+    document.getElementById('search-placeholder').classList.remove('hide');
+}
+
+function hidePlaceholders() {
+    document.getElementById('search-placeholder').classList.add('hide');
+    document.getElementById('no-results-placeholder').classList.add('hide');
+}
