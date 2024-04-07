@@ -38,7 +38,7 @@
         }
 
         .search__button {
-            padding-right: 0.6em;
+            padding-right: 0.4em;
             border-top-right-radius: calc(var(--search-bar-height));
             border-bottom-right-radius: calc(var(--search-bar-height));            
             background-color: var(--hover-shade);
