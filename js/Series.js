@@ -1,4 +1,4 @@
-import { Media } from './classes';
+import Media from './Media';
 
 export default class Series extends Media {
   constructor(obj) {
