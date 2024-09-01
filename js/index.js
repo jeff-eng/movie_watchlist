@@ -115,7 +115,10 @@ document.getElementById('modal').addEventListener('click', event => {
   const modalLikedButtonMediaId = event.target.dataset.imdbId;
 
   if (eventTarget.closest('.modal__back-btn')) {
-    closeModal();
+    modal.classList.add('closed');
+    setTimeout(() => {
+      closeModal();
+    }, 500);
   } else if (modalLikedButtonMediaId) {
     // Get index of matching item from search results
     const matchingItemIndex = searchResults.findIndex(

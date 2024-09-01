@@ -93,6 +93,8 @@ function openModal(searchResults, mediaId) {
   const index = searchResults.findIndex(element => element.imdbID === mediaId);
   const modalHtml = searchResults[index].createModalDetailHtml();
 
+  modal.classList.remove('closed');
+
   modal.showModal();
   modal.replaceChildren(...modalHtml);
   document.body.style.overflow = 'hidden';

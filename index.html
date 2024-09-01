@@ -1,106 +1,154 @@
 <!DOCTYPE html>
 <html lang="en">
-
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta name="description" content="Discover, track, and curate your cinematic journey with MovieMate. 
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta
+      name="description"
+      content="Discover, track, and curate your cinematic journey with MovieMate. 
         Easily save and organize your favorite films, creating a personalized watchlist that ensures you never miss a movie. 
         Explore a world of entertainment at your fingertips, where your movie choices are stored and ready for your next 
-        viewing adventure. Turn your film preferences into a curated cinematic experience.">
+        viewing adventure. Turn your film preferences into a curated cinematic experience."
+    />
     <title>MovieMate | Home</title>
-    
-    <!-- Favicon -->
-    <link rel="apple-touch-icon" sizes="180x180" href="assets/favicon/apple-touch-icon.png">
-    <link rel="icon" type="image/png" sizes="32x32" href="assets/favicon/favicon-32x32.png">
-    <link rel="icon" type="image/png" sizes="16x16" href="assets/favicon/favicon-16x16.png">
-    <link rel="manifest" href="assets/favicon/site.webmanifest">
-    <link rel="mask-icon" href="assets/favicon/safari-pinned-tab.svg" color="#5bbad5">
-    <meta name="msapplication-TileColor" content="#603cba">
-    <meta name="theme-color" content="#ffffff">
-    <!-- Font Awesome -->
-    <link rel="stylesheet" 
-          href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" 
-          integrity="sha512-DTOQO9RWCH3ppGqcWaEA1BIZOC6xxalwEsw9c2QQeAIftl+Vegovlnee1c9QX4TctnWMn13TZye+giMm8e2LwA==" 
-          crossorigin="anonymous" 
-          referrerpolicy="no-referrer" 
-    >
-    <!-- Google Fonts -->
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Sofia+Sans:ital,wght@0,1..1000;1,1..1000&display=swap" rel="stylesheet">
-    <!-- CSS files -->
-    <link rel="stylesheet" href="./styles/base.css">
-    <link rel="stylesheet" href="./styles/index.css">
-    <link rel="stylesheet" href="./styles/modal.css">
-</head>
 
-<body>
+    <!-- Favicon -->
+    <link
+      rel="apple-touch-icon"
+      sizes="180x180"
+      href="assets/favicon/apple-touch-icon.png"
+    />
+    <link
+      rel="icon"
+      type="image/png"
+      sizes="32x32"
+      href="assets/favicon/favicon-32x32.png"
+    />
+    <link
+      rel="icon"
+      type="image/png"
+      sizes="16x16"
+      href="assets/favicon/favicon-16x16.png"
+    />
+    <link rel="manifest" href="assets/favicon/site.webmanifest" />
+    <link
+      rel="mask-icon"
+      href="assets/favicon/safari-pinned-tab.svg"
+      color="#5bbad5"
+    />
+    <meta name="msapplication-TileColor" content="#603cba" />
+    <meta name="theme-color" content="#ffffff" />
+    <!-- Font Awesome -->
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css"
+      integrity="sha512-DTOQO9RWCH3ppGqcWaEA1BIZOC6xxalwEsw9c2QQeAIftl+Vegovlnee1c9QX4TctnWMn13TZye+giMm8e2LwA=="
+      crossorigin="anonymous"
+      referrerpolicy="no-referrer"
+    />
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Sofia+Sans:ital,wght@0,1..1000;1,1..1000&display=swap"
+      rel="stylesheet"
+    />
+    <!-- CSS files -->
+    <link rel="stylesheet" href="./styles/base.css" />
+    <link rel="stylesheet" href="./styles/index.css" />
+    <link rel="stylesheet" href="./styles/modal.css" />
+  </head>
+
+  <body>
     <header class="header">
-        <img class="header__logo" src="./assets/moviemate-logo.svg" alt="logo">
-        <h1 class="header__title">MovieMate</h1>
-        <search class="search">
-            <form class="search__form" id="search__form">
-                <input class="search__input" id="search__input" tabindex="0" type="search" name="search-string" autocomplete="on" placeholder="Search..." minlength="1">
-                <button class="search__button" id="search__button" type="submit" disabled>
-                    <i class="fa-solid fa-magnifying-glass"></i>
-                </button>
-                <button class="search__clear" id="search__clear" type="button">
-                    clear
-                </button>
-            </form>
-        </search>
+      <img class="header__logo" src="./assets/moviemate-logo.svg" alt="logo" />
+      <h1 class="header__title">MovieMate</h1>
+      <search class="search">
+        <form class="search__form" id="search__form">
+          <input
+            class="search__input"
+            id="search__input"
+            tabindex="0"
+            type="search"
+            name="search-string"
+            autocomplete="on"
+            placeholder="Search..."
+            minlength="1"
+          />
+          <button
+            class="search__button"
+            id="search__button"
+            type="submit"
+            disabled
+          >
+            <i class="fa-solid fa-magnifying-glass"></i>
+          </button>
+          <button class="search__clear" id="search__clear" type="button">
+            clear
+          </button>
+        </form>
+      </search>
     </header>
 
     <main id="main" class="main">
-        <div class="loader hide" id="loader"></div>
-        <section class="search-results" id="search-results">
-            <!-- Results populated dynamically -->
-        </section>
+      <div class="loader hide" id="loader"></div>
+      <section class="search-results" id="search-results">
+        <!-- Results populated dynamically -->
+      </section>
 
-        <!-- Display when there are no search results displayed -->
-        <section class="placeholder" id="search-placeholder">
-            <p class="placeholder__message">
-                Search for movies and shows with MovieMate. Then add favorite titles to your watchlist!  
-            </p>
-            <img class="placeholder__illustration" src="assets/movie-watching.svg" alt="two people sitting on couch watching movie">
-        </section>
+      <!-- Display when there are no search results displayed -->
+      <section class="placeholder" id="search-placeholder">
+        <p class="placeholder__message">
+          Search for movies and shows with MovieMate. Then add favorite titles
+          to your watchlist!
+        </p>
+        <img
+          class="placeholder__illustration"
+          src="assets/movie-watching.svg"
+          alt="two people sitting on couch watching movie"
+        />
+      </section>
 
-        <!-- Display when no search results returned and rendered -->
-        <section class="placeholder hide" id="no-results-placeholder">
-            <p class="placeholder__message" id="placeholder__no-results-message"></p>
-            <img class="placeholder__illustration" src="assets/void-graphic.svg" alt="person staring into the void">
-        </section>
+      <!-- Display when no search results returned and rendered -->
+      <section class="placeholder hide" id="no-results-placeholder">
+        <p
+          class="placeholder__message"
+          id="placeholder__no-results-message"
+        ></p>
+        <img
+          class="placeholder__illustration"
+          src="assets/void-graphic.svg"
+          alt="person staring into the void"
+        />
+      </section>
     </main>
-    
+
     <!-- Modal for viewing details of selected media -->
-    <dialog class="modal" id="modal" aria-modal="true" closed>
-        <button class="modal__back-btn" type="button">
-            <i class="fa-solid fa-arrow-left"></i>
-        </button>
+    <dialog class="modal" id="modal" aria-modal="true">
+      <button class="modal__back-btn" type="button">
+        <i class="fa-solid fa-arrow-left"></i>
+      </button>
 
-        <!-- Media details are inserted into DOM dynamically here -->
-
+      <!-- Media details are inserted into DOM dynamically here -->
     </dialog>
 
     <footer class="footer">
-        <!-- Navigation on mobile/table screen sizes -->
-        <nav class="footer__nav">
-            <ul class="nav__menu">
-                <li class="nav__item">
-                    <a href="/index.html" aria-label="Home">
-                        <i class="fa-solid fa-house nav__icon--current"></i>
-                    </a>
-                </li>
-                <li class="nav__item">
-                    <a href="/watchlist.html" aria-label="Watchlist">
-                        <i class="fa-regular fa-heart nav__icon"></i>
-                    </a>
-                </li>
-            </ul>
-        </nav>
+      <!-- Navigation on mobile/table screen sizes -->
+      <nav class="footer__nav">
+        <ul class="nav__menu">
+          <li class="nav__item">
+            <a href="/index.html" aria-label="Home">
+              <i class="fa-solid fa-house nav__icon--current"></i>
+            </a>
+          </li>
+          <li class="nav__item">
+            <a href="/watchlist.html" aria-label="Watchlist">
+              <i class="fa-regular fa-heart nav__icon"></i>
+            </a>
+          </li>
+        </ul>
+      </nav>
     </footer>
     <script type="module" src="./js/index.js"></script>
-</body>
-
+  </body>
 </html>
