@@ -5,7 +5,8 @@ import {
 import { getSearchResults, openModal, closeModal } from './functions.js';
 import { setupWatchlist } from './watchlist-functions.js';
 
-const apiKey = import.meta.env.VITE_API_KEY;
+const apiKey = process.env.API_KEY;
+
 const BASE_URL = `http://www.omdbapi.com/?apikey=${apiKey}&`;
 const searchForm = document.getElementById('search__form');
 const searchInput = document.getElementById('search__input');
