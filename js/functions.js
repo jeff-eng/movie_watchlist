@@ -5,10 +5,13 @@ import Series from './Series';
 
 async function getSearchResults(baseUrl, query, watchlist) {
   // Use 's' query string parameter to get paginated list of results
-  const apiUrl = baseUrl + `s=${encodeURIComponent(query)}`;
+  //   const apiUrl = baseUrl + `s=${encodeURIComponent(query)}`
 
   try {
-    const response = await fetch(apiUrl);
+    // const response = await fetch(apiUrl);
+    const response = await fetch(
+      `/.netlify/functions/fetchResultsAPI?searchquery=${query}`
+    );
     const data = await response.json();
 
     // Short-circuit failed fetch
@@ -72,11 +75,20 @@ function createClassInstance(obj) {
 }
 
 async function getCompleteFilmDetails(baseUrl, imdbID) {
-  const apiUrl = baseUrl + `i=${imdbID}`;
-
+  //   const apiUrl = baseUrl + `i=${imdbID}`;
+  //   const response = await fetch(
+  //     `/.netlify/functions/fetchDetailedResultAPI?imdb_id=${imdbID}`
+  //   );
+  //   console.log(imdbID);
   try {
-    const response = await fetch(apiUrl);
-    const data = response.json();
+    // const response = await fetch(apiUrl);
+    const response = await fetch(
+      `/.netlify/functions/fetchDetailedResultAPI?imdb_id=${imdbID}`
+    );
+
+    const data = await response.json();
+
+    // console.log('Line 93 ', data);
 
     if (data.Response === 'False') {
       throw new Error(`Could not get film details for search ID: ${imdbID}`);
