@@ -1,4 +1,3 @@
-// Docs on event and context https://docs.netlify.com/functions/build/#code-your-function-2
 const handler = async event => {
   try {
     const { searchquery } = event.queryStringParameters;
@@ -17,8 +16,6 @@ const handler = async event => {
     );
 
     const data = await response.json();
-
-    console.log(data);
 
     return {
       statusCode: 200,

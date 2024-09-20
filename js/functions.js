@@ -3,12 +3,9 @@ import Media from './Media';
 import Movie from './Movie';
 import Series from './Series';
 
-async function getSearchResults(baseUrl, query, watchlist) {
-  // Use 's' query string parameter to get paginated list of results
-  //   const apiUrl = baseUrl + `s=${encodeURIComponent(query)}`
-
+async function getSearchResults(query, watchlist) {
   try {
-    // const response = await fetch(apiUrl);
+    // Fetch with Netlify serverless function
     const response = await fetch(
       `/.netlify/functions/fetchResultsAPI?searchquery=${query}`
     );
@@ -74,21 +71,13 @@ function createClassInstance(obj) {
   }
 }
 
-async function getCompleteFilmDetails(baseUrl, imdbID) {
-  //   const apiUrl = baseUrl + `i=${imdbID}`;
-  //   const response = await fetch(
-  //     `/.netlify/functions/fetchDetailedResultAPI?imdb_id=${imdbID}`
-  //   );
-  //   console.log(imdbID);
+async function getCompleteFilmDetails(imdbID) {
   try {
-    // const response = await fetch(apiUrl);
     const response = await fetch(
       `/.netlify/functions/fetchDetailedResultAPI?imdb_id=${imdbID}`
     );
 
     const data = await response.json();
-
-    // console.log('Line 93 ', data);
 
     if (data.Response === 'False') {
       throw new Error(`Could not get film details for search ID: ${imdbID}`);
