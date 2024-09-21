@@ -5,8 +5,6 @@ import {
 import { getSearchResults, openModal, closeModal } from './functions.js';
 import { setupWatchlist } from './watchlist-functions.js';
 
-const apiKey = import.meta.env.VITE_API_KEY;
-const BASE_URL = `https://www.omdbapi.com/?apikey=${apiKey}&`;
 const searchForm = document.getElementById('search__form');
 const searchInput = document.getElementById('search__input');
 const searchButton = document.getElementById('search__button');
@@ -33,7 +31,9 @@ searchForm.addEventListener('submit', async event => {
   event.preventDefault();
 
   const searchFormData = new FormData(searchForm);
-  const searchQuery = searchFormData.get('search-string').toLowerCase();
+  const searchQuery = searchFormData.get('search-string').trim().toLowerCase();
+
+  if (!searchQuery) return;
 
   if (searchQuery !== recentSearchTerm) {
     loadingAnimation(true);
