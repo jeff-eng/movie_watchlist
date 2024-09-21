@@ -37,7 +37,7 @@ searchForm.addEventListener('submit', async event => {
 
   if (searchQuery !== recentSearchTerm) {
     loadingAnimation(true);
-    searchResults = await getSearchResults(BASE_URL, searchQuery, watchlist);
+    searchResults = await getSearchResults(searchQuery, watchlist);
   } else return;
 
   if (searchResults.length) {

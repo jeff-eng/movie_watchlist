@@ -21,7 +21,7 @@ async function getSearchResults(query, watchlist) {
     const initialSearchResults = data.Search;
     const detailedSearchResults = await Promise.allSettled(
       initialSearchResults.map(
-        async result => await getCompleteFilmDetails(baseUrl, result.imdbID)
+        async result => await getCompleteFilmDetails(result.imdbID)
       )
     );
 
@@ -85,7 +85,7 @@ async function getCompleteFilmDetails(imdbID) {
 
     return data;
   } catch (err) {
-    console.error(err);
+    console.error(`Error getting film details: ${err}`);
   }
 }
 
