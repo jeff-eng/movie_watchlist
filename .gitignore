@@ -36,3 +36,5 @@ dist-ssr
 # Dependency directories
 /jspm_packages/
 /bower_components/
+# Local Netlify folder
+.netlify

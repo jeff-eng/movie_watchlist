@@ -3,12 +3,12 @@ import Media from './Media';
 import Movie from './Movie';
 import Series from './Series';
 
-async function getSearchResults(baseUrl, query, watchlist) {
-  // Use 's' query string parameter to get paginated list of results
-  const apiUrl = baseUrl + `s=${encodeURIComponent(query)}`;
-
+async function getSearchResults(query, watchlist) {
   try {
-    const response = await fetch(apiUrl);
+    // Fetch with Netlify serverless function
+    const response = await fetch(
+      `/.netlify/functions/fetchResultsAPI?searchquery=${query}`
+    );
     const data = await response.json();
 
     // Short-circuit failed fetch
@@ -21,7 +21,7 @@ async function getSearchResults(baseUrl, query, watchlist) {
     const initialSearchResults = data.Search;
     const detailedSearchResults = await Promise.allSettled(
       initialSearchResults.map(
-        async result => await getCompleteFilmDetails(baseUrl, result.imdbID)
+        async result => await getCompleteFilmDetails(result.imdbID)
       )
     );
 
@@ -71,12 +71,13 @@ function createClassInstance(obj) {
   }
 }
 
-async function getCompleteFilmDetails(baseUrl, imdbID) {
-  const apiUrl = baseUrl + `i=${imdbID}`;
-
+async function getCompleteFilmDetails(imdbID) {
   try {
-    const response = await fetch(apiUrl);
-    const data = response.json();
+    const response = await fetch(
+      `/.netlify/functions/fetchDetailedResultAPI?imdb_id=${imdbID}`
+    );
+
+    const data = await response.json();
 
     if (data.Response === 'False') {
       throw new Error(`Could not get film details for search ID: ${imdbID}`);
@@ -84,7 +85,7 @@ async function getCompleteFilmDetails(baseUrl, imdbID) {
 
     return data;
   } catch (err) {
-    console.error(err);
+    console.error(`Error getting film details: ${err}`);
   }
 }
 
