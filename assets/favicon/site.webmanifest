@@ -1,6 +1,6 @@
 {
-  "name": "",
-  "short_name": "",
+  "name": "MovieMate",
+  "short_name": "MovieMate",
   "icons": [
     {
       "src": "/android-chrome-192x192.png",
