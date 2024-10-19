@@ -25,7 +25,7 @@ Fetch movie and TV show data from the [Open Movie Database (OMBD) API](https://w
 
 ### Demo
 
-<div style="display: flex; gap: 1em;">
+<div style="display: flex; gap: 2em;">
   <img src="./readme_assets/moviemate-search.gif" alt="Image 1" style="max-height: 650px; object-fit: contain;" />
   <img src="./readme_assets/moviemate-watchlist.gif" alt="Image 2" style="max-height: 650px; object-fit: contain;" />
 </div>
