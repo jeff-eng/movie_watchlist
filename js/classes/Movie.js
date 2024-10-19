@@ -1,4 +1,4 @@
-import Media from './classes/Media';
+import Media from './Media';
 
 export default class Movie extends Media {
   constructor(obj) {
