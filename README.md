@@ -25,13 +25,10 @@ Fetch movie and TV show data from the [Open Movie Database (OMBD) API](https://w
 
 ### Demo
 
-#### Homepage/Search
-
-![Search demo](./readme_assets/moviemate-search.gif)
-
-#### Watchlist
-
-![Watchlist demo](./readme_assets/moviemate-watchlist.gif)
+<div style="display: flex; gap: 1em;">
+  <img src="./readme_assets/moviemate-search.gif" alt="Image 1" style="max-height: 650px; object-fit: contain;" />
+  <img src="./readme_assets/moviemate-watchlist.gif" alt="Image 2" style="max-height: 650px; object-fit: contain;" />
+</div>
 
 ### Links
 
@@ -51,9 +48,9 @@ Fetch movie and TV show data from the [Open Movie Database (OMBD) API](https://w
 
 ### What I learned
 
-Async-await syntax was put into practice for this project to make asynchronous code look more synchronous.
+#### async-await
 
-**async-await**
+Async-await syntax was put into practice for this project to make asynchronous code look more synchronous when working with promises, along with try-catch for error handling:
 
 ```js
 async function getCompleteFilmDetails(imdbID) {
@@ -75,7 +72,9 @@ async function getCompleteFilmDetails(imdbID) {
 }
 ```
 
-**JavaScript classes**
+#### JavaScript classes
+
+In order to make the codebase more DRY, I created a Media class. The Movie and Series classes inherit from the Media class, providing customiziation of the properties and methods while retaining some of the properties of the parent Media class due to inheritance. I create class methods to handle creation of HTML strings for dynamic insertion into the DOM. This is about as close to React components as I could get considering I had not learned React at this point in my journey.
 
 ```js
 export default class Movie extends Media {
@@ -86,7 +85,61 @@ export default class Movie extends Media {
     this.Production = obj.Production;
     this.Website = obj.Website;
   }
+
+  createResultHtml() {
+    const article = this.#createBasicElement('article', this.imdbID, 'result');
+
+    // Use placeholder image for instances where poster is N/A
+    if (this.Poster === 'N/A') {
+      this.Poster = './assets/imgholdr-image.png';
+    }
+
+    article.innerHTML = `
+          <picture>
+              <source srcset="${this.Poster}" type="image/png">
+              <img class="result__img" src="${this.Poster}" alt="${
+      this.Title
+    } ${this.Type} poster">
+          </picture>
+          <div class="result__details">
+              <h2 class="result__title">${this.Title} (<time datetime="${
+      this.Year
+    }">${this.Year}</time>)</h2>
+              <span class="result__type">${this.Type} 
+                  <time class="result__runtime" datetime="PT${
+                    this.Runtime.split(' ')[0]
+                  }M">${this.Runtime}</time>
+              </span>
+              <span class="result__genre">${this.Genre}</span>
+              <span class="result__rating">
+                  <i class="fa-solid fa-star"></i>
+                  <span class="result__rating-value">${this.imdbRating}</span>
+              </span>
+          </div>
+          <button class="result__like-btn" type="button">
+              <i class="fa-solid ${
+                this.liked ? 'fa-heart-circle-minus' : 'fa-heart-circle-plus'
+              }" data-imdb-id="${this.imdbID}"></i>
+          </button>
+      `;
+
+    return article;
+  }
+
+  // More class methods here...
 }
+```
+
+Also created private class methods marked with **#**. This method was only useful within the class itself so it was unnecessary to expose the method externally:
+
+```js
+#createBasicElement(tagType = 'div', idName = '', ...classNames) {
+    const htmlElement = document.createElement(tagType);
+    htmlElement.id = idName;
+    htmlElement.classList.add(...classNames);
+
+    return htmlElement;
+  }
 ```
 
 ### Continued development
@@ -94,11 +147,6 @@ export default class Movie extends Media {
 - Adding Firebase authentication
 - Firebase database for storing user watchlist
 - Converting codebase to React
-
-### Useful resources
-
-- [Example resource 1](https://www.example.com) - This helped me for XYZ reason. I really liked this pattern and will use it going forward.
-- [Example resource 2](https://www.example.com) - This is an amazing article which helped me finally understand XYZ. I'd recommend it to anyone still learning this concept.
 
 ## Author
 
