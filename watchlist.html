@@ -10,7 +10,7 @@
         Explore a world of entertainment at your fingertips, where your movie choices are stored and ready for your next 
         viewing adventure. Turn your film preferences into a curated cinematic experience."
     />
-    <title>MovieMate | Home</title>
+    <title>MovieMate | Watchlist</title>
 
     <!-- Favicon -->
     <link
@@ -55,65 +55,33 @@
     />
     <!-- CSS files -->
     <link rel="stylesheet" href="./styles/base.css" />
-    <link rel="stylesheet" href="./styles/index.css" />
     <link rel="stylesheet" href="./styles/modal.css" />
+    <link rel="stylesheet" href="./styles/watchlist.css" />
   </head>
 
   <body>
     <header class="header">
       <img class="header__logo" src="./assets/moviemate-logo.svg" alt="logo" />
       <h1 class="header__title">MovieMate</h1>
-      <search class="search">
-        <form class="search__form" id="search__form">
-          <input
-            class="search__input"
-            id="search__input"
-            tabindex="0"
-            type="search"
-            name="search-string"
-            autocomplete="on"
-            placeholder="Search movies and shows..."
-            minlength="1"
-          />
-          <button class="search__button" id="search__button" type="submit">
-            <i class="fa-solid fa-magnifying-glass" tabindex="0"></i>
-          </button>
-          <button class="search__clear" id="search__clear" type="button">
-            clear
-          </button>
-        </form>
-      </search>
+      <h2 class="header__subtitle">My Watchlist</h2>
     </header>
-
-    <main id="main" class="main">
-      <div class="loader hide" id="loader"></div>
-      <section class="search-results" id="search-results">
-        <!-- Results populated dynamically -->
+    <main>
+      <section class="watchlist" id="watchlist">
+        <!-- Watchlist items will be displayed here -->
       </section>
 
-      <!-- Display when there are no search results displayed -->
-      <section class="placeholder" id="search-placeholder">
+      <!-- Display when no watchlist items available -->
+      <section class="placeholder hide" id="empty-list">
         <p class="placeholder__message">
-          Search for movies and shows with MovieMate. Then add favorite titles
-          to your watchlist!
+          Your watchlist is looking a bit empty... Let's get searching!
         </p>
+        <a href="index.html">
+          <p class="placeholder__link">Go to Search</p>
+        </a>
         <img
           class="placeholder__illustration"
-          src="assets/movie-watching.svg"
-          alt="two people sitting on couch watching movie"
-        />
-      </section>
-
-      <!-- Display when no search results returned and rendered -->
-      <section class="placeholder hide" id="no-results-placeholder">
-        <p
-          class="placeholder__message"
-          id="placeholder__no-results-message"
-        ></p>
-        <img
-          class="placeholder__illustration"
-          src="assets/void-graphic.svg"
-          alt="person staring into the void"
+          src="assets/empty-graphic.svg"
+          alt="People looking at empty box"
         />
       </section>
     </main>
@@ -124,7 +92,7 @@
         <i class="fa-solid fa-arrow-left"></i>
       </button>
 
-      <!-- Media details are inserted into DOM dynamically here -->
+      <!-- Detailed media details dynamically rendered here -->
     </dialog>
 
     <footer class="footer">
@@ -133,17 +101,17 @@
         <ul class="nav__menu">
           <li class="nav__item">
             <a href="/index.html" aria-label="Home">
-              <i class="fa-solid fa-house nav__icon--current"></i>
+              <i class="fa-solid fa-house nav__icon"></i>
             </a>
           </li>
           <li class="nav__item">
             <a href="/watchlist.html" aria-label="Watchlist">
-              <i class="fa-regular fa-heart nav__icon"></i>
+              <i class="fa-regular fa-heart nav__icon--current"></i>
             </a>
           </li>
         </ul>
       </nav>
     </footer>
-    <script type="module" src="./js/index.js"></script>
+    <script type="module" src="js/watchlist.js"></script>
   </body>
 </html>

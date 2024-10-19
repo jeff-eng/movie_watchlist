@@ -1,10 +1,14 @@
-# Movie Watchlist
+# MovieMate - A Movie Watchlist app
+
+MovieMate is a movie and TV show search discovery web app powered by the Open Movie Database (OMDB) API, built with vanilla JavaScript, CSS, and semantic HTML.
+
+It was built as part of my journey learning async JavaScript, focusing on API interaction, using async-await syntax for handling promises, and try-catch for error handling.
 
 ## Table of contents
 
 - [Overview](#overview)
   - [The challenge](#the-challenge)
-  - [Screenshot](#screenshot)
+  - [Demo](#demo)
   - [Links](#links)
 - [My process](#my-process)
   - [Built with](#built-with)
@@ -12,106 +16,139 @@
   - [Continued development](#continued-development)
   - [Useful resources](#useful-resources)
 - [Author](#author)
-- [Acknowledgments](#acknowledgments)
-
-**Note: Delete this note and update the table of contents based on what sections you keep.**
 
 ## Overview
 
 ### The challenge
 
-Users should be able to:
+Fetch movie and TV show data from the [Open Movie Database (OMBD) API](https://www.omdbapi.com/), display the search results, and allow users to save titles to their watchlist using local storage.
 
-- View an age in years, months, and days after submitting a valid date through the form
-- Receive validation errors if:
-  - Any field is empty when the form is submitted
-  - The day number is not between 1-31
-  - The month number is not between 1-12
-  - The year is in the future
-  - The date is invalid e.g. 31/04/1991 (there are 30 days in April)
-- View the optimal layout for the interface depending on their device's screen size
-- See hover and focus states for all interactive elements on the page
-- **Bonus**: See the age numbers animate to their final number when the form is submitted
+### Demo
 
-### Screenshot
-
-![](./screenshot.jpg)
-
-Add a screenshot of your solution. The easiest way to do this is to use Firefox to view your project, right-click the page and select "Take a Screenshot". You can choose either a full-height screenshot or a cropped one based on how long the page is. If it's very long, it might be best to crop it.
-
-Alternatively, you can use a tool like [FireShot](https://getfireshot.com/) to take the screenshot. FireShot has a free option, so you don't need to purchase it. 
-
-Then crop/optimize/edit your image however you like, add it to your project, and update the file path in the image above.
-
-**Note: Delete this note and the paragraphs above when you add your screenshot. If you prefer not to add a screenshot, feel free to remove this entire section.**
+<div style="display: flex; gap: 2em;">
+  <img src="./readme_assets/moviemate-search.gif" alt="Image 1" style="max-height: 650px; object-fit: contain;" />
+  <img src="./readme_assets/moviemate-watchlist.gif" alt="Image 2" style="max-height: 650px; object-fit: contain;" />
+</div>
 
 ### Links
 
-- Solution URL: [Add solution URL here](https://your-solution-url.com)
-- Live Site URL: [Add live site URL here](https://your-live-site-url.com)
+- Live Site URL: [MovieMate](https://movie-mate-webapp.netlify.app/)
 
 ## My process
 
 ### Built with
 
 - Semantic HTML5 markup
-- CSS custom properties
+- Async JavaScript
+- Nested CSS
 - Flexbox
 - CSS Grid
+- JavaScript classes
 - Mobile-first workflow
-- [React](https://reactjs.org/) - JS library
-- [Next.js](https://nextjs.org/) - React framework
-- [Styled Components](https://styled-components.com/) - For styles
-
-**Note: These are just examples. Delete this note and replace the list above with your own choices**
 
 ### What I learned
 
-Use this section to recap over some of your major learnings while working through this project. Writing these out and providing code samples of areas you want to highlight is a great way to reinforce your own knowledge.
+#### async-await
 
-To see how you can add code snippets, see below:
+Async-await syntax was put into practice for this project to make asynchronous code look more synchronous when working with promises, along with try-catch for error handling:
 
-```html
-<h1>Some HTML code I'm proud of</h1>
-```
-```css
-.proud-of-this-css {
-  color: papayawhip;
-}
-```
 ```js
-const proudOfThisFunc = () => {
-  console.log('🎉')
+async function getCompleteFilmDetails(imdbID) {
+  try {
+    const response = await fetch(
+      `/.netlify/functions/fetchDetailedResultAPI?imdb_id=${imdbID}`
+    );
+
+    const data = await response.json();
+
+    if (data.Response === 'False') {
+      throw new Error(`Could not get film details for search ID: ${imdbID}`);
+    }
+
+    return data;
+  } catch (err) {
+    console.error(`Error getting film details: ${err}`);
+  }
 }
 ```
 
-If you want more help with writing markdown, we'd recommend checking out [The Markdown Guide](https://www.markdownguide.org/) to learn more.
+#### JavaScript classes
 
-**Note: Delete this note and the content within this section and replace with your own learnings.**
+In order to make the codebase more DRY, I created a Media class. The Movie and Series classes inherit from the Media class, providing customiziation of the properties and methods while retaining some of the properties of the parent Media class due to inheritance. I create class methods to handle creation of HTML strings for dynamic insertion into the DOM. This is about as close to React components as I could get considering I had not learned React at this point in my journey.
+
+```js
+export default class Movie extends Media {
+  constructor(obj) {
+    super(obj);
+    this.Dvd = obj.DVD;
+    this.BoxOffice = obj.BoxOffice;
+    this.Production = obj.Production;
+    this.Website = obj.Website;
+  }
+
+  createResultHtml() {
+    const article = this.#createBasicElement('article', this.imdbID, 'result');
+
+    // Use placeholder image for instances where poster is N/A
+    if (this.Poster === 'N/A') {
+      this.Poster = './assets/imgholdr-image.png';
+    }
+
+    article.innerHTML = `
+          <picture>
+              <source srcset="${this.Poster}" type="image/png">
+              <img class="result__img" src="${this.Poster}" alt="${
+      this.Title
+    } ${this.Type} poster">
+          </picture>
+          <div class="result__details">
+              <h2 class="result__title">${this.Title} (<time datetime="${
+      this.Year
+    }">${this.Year}</time>)</h2>
+              <span class="result__type">${this.Type} 
+                  <time class="result__runtime" datetime="PT${
+                    this.Runtime.split(' ')[0]
+                  }M">${this.Runtime}</time>
+              </span>
+              <span class="result__genre">${this.Genre}</span>
+              <span class="result__rating">
+                  <i class="fa-solid fa-star"></i>
+                  <span class="result__rating-value">${this.imdbRating}</span>
+              </span>
+          </div>
+          <button class="result__like-btn" type="button">
+              <i class="fa-solid ${
+                this.liked ? 'fa-heart-circle-minus' : 'fa-heart-circle-plus'
+              }" data-imdb-id="${this.imdbID}"></i>
+          </button>
+      `;
+
+    return article;
+  }
+
+  // More class methods here...
+}
+```
+
+Also created private class methods marked with **#**. This method was only useful within the class itself so it was unnecessary to expose the method externally:
+
+```js
+#createBasicElement(tagType = 'div', idName = '', ...classNames) {
+    const htmlElement = document.createElement(tagType);
+    htmlElement.id = idName;
+    htmlElement.classList.add(...classNames);
+
+    return htmlElement;
+  }
+```
 
 ### Continued development
 
-Use this section to outline areas that you want to continue focusing on in future projects. These could be concepts you're still not completely comfortable with or techniques you found useful that you want to refine and perfect.
-
-**Note: Delete this note and the content within this section and replace with your own plans for continued development.**
-
-### Useful resources
-
-- [Example resource 1](https://www.example.com) - This helped me for XYZ reason. I really liked this pattern and will use it going forward.
-- [Example resource 2](https://www.example.com) - This is an amazing article which helped me finally understand XYZ. I'd recommend it to anyone still learning this concept.
-
-**Note: Delete this note and replace the list above with resources that helped you during the challenge. These could come in handy for anyone viewing your solution or for yourself when you look back on this project in the future.**
+- Adding Firebase authentication
+- Firebase database for storing user watchlist
+- Converting codebase to React
 
 ## Author
 
-- Website - [Add your name here](https://www.your-site.com)
-- Frontend Mentor - [@yourusername](https://www.frontendmentor.io/profile/yourusername)
-- Twitter - [@yourusername](https://www.twitter.com/yourusername)
-
-**Note: Delete this note and add/remove/edit lines above based on what links you'd like to share.**
-
-## Acknowledgments
-
-This is where you can give a hat tip to anyone who helped you out on this project. Perhaps you worked in a team or got some inspiration from someone else's solution. This is the perfect place to give them some credit.
-
-**Note: Delete this note and edit this section's content as necessary. If you completed this challenge by yourself, feel free to delete this section entirely.**
+- [Jeff Eng](https://www.jeffeng.com)
+- X (formerly Twitter) [@elev8eng](https://x.com/elev8eng)
