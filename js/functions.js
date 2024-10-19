@@ -1,7 +1,6 @@
-// import { Media, Movie, Series } from './classes.js';
-import Media from './Media';
-import Movie from './Movie';
-import Series from './Series';
+import Media from './classes/Media';
+import Movie from './classes/Movie';
+import Series from './classes/Series';
 
 async function getSearchResults(query, watchlist) {
   try {

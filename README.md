@@ -1,10 +1,14 @@
 # MovieMate - A Movie Watchlist app
 
+MovieMate is a movie and TV show search discovery web app powered by the Open Movie Database (OMDB) API, built with vanilla JavaScript, CSS, and semantic HTML.
+
+It was built as part of my journey learning async JavaScript, focusing on API interaction, using async-await syntax for handling promises, and try-catch for error handling.
+
 ## Table of contents
 
 - [Overview](#overview)
   - [The challenge](#the-challenge)
-  - [Screenshot](#screenshot)
+  - [Demo](#demo)
   - [Links](#links)
 - [My process](#my-process)
   - [Built with](#built-with)
@@ -12,11 +16,12 @@
   - [Continued development](#continued-development)
   - [Useful resources](#useful-resources)
 - [Author](#author)
-- [Acknowledgments](#acknowledgments)
 
 ## Overview
 
 ### The challenge
+
+Fetch movie and TV show data from the [Open Movie Database (OMBD) API](https://www.omdbapi.com/), display the search results, and allow users to save titles to their watchlist using local storage.
 
 ### Demo
 
@@ -37,7 +42,8 @@
 ### Built with
 
 - Semantic HTML5 markup
-- CSS custom properties and nested CSS
+- Async JavaScript
+- Nested CSS
 - Flexbox
 - CSS Grid
 - JavaScript classes
@@ -45,31 +51,49 @@
 
 ### What I learned
 
-Use this section to recap over some of your major learnings while working through this project. Writing these out and providing code samples of areas you want to highlight is a great way to reinforce your own knowledge.
+Async-await syntax was put into practice for this project to make asynchronous code look more synchronous.
 
-To see how you can add code snippets, see below:
+**async-await**
 
-```html
-<h1>Some HTML code I'm proud of</h1>
-```
+```js
+async function getCompleteFilmDetails(imdbID) {
+  try {
+    const response = await fetch(
+      `/.netlify/functions/fetchDetailedResultAPI?imdb_id=${imdbID}`
+    );
 
-```css
-.proud-of-this-css {
-  color: papayawhip;
+    const data = await response.json();
+
+    if (data.Response === 'False') {
+      throw new Error(`Could not get film details for search ID: ${imdbID}`);
+    }
+
+    return data;
+  } catch (err) {
+    console.error(`Error getting film details: ${err}`);
+  }
 }
 ```
 
-```js
-const proudOfThisFunc = () => {
-  console.log('🎉');
-};
-```
+**JavaScript classes**
 
-If you want more help with writing markdown, we'd recommend checking out [The Markdown Guide](https://www.markdownguide.org/) to learn more.
+```js
+export default class Movie extends Media {
+  constructor(obj) {
+    super(obj);
+    this.Dvd = obj.DVD;
+    this.BoxOffice = obj.BoxOffice;
+    this.Production = obj.Production;
+    this.Website = obj.Website;
+  }
+}
+```
 
 ### Continued development
 
-Use this section to outline areas that you want to continue focusing on in future projects. These could be concepts you're still not completely comfortable with or techniques you found useful that you want to refine and perfect.
+- Adding Firebase authentication
+- Firebase database for storing user watchlist
+- Converting codebase to React
 
 ### Useful resources
 

@@ -58,7 +58,6 @@ searchForm.addEventListener('submit', async event => {
     document.getElementById(
       'placeholder__no-results-message'
     ).textContent = `No results found for '${searchQuery}'. Try modifying your search.`;
-    // document.getElementById('search-placeholder').classList.add('hide');
     showNoResultsPlaceholder();
   }
 });
