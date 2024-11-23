@@ -74,7 +74,7 @@ async function getCompleteFilmDetails(imdbID) {
 
 #### JavaScript classes
 
-In order to make the codebase more DRY, I created a Media class. The Movie and Series classes inherit from the Media class, providing customiziation of the properties and methods while retaining some of the properties of the parent Media class due to inheritance. I create class methods to handle creation of HTML strings for dynamic insertion into the DOM. This is about as close to React components as I could get considering I had not learned React at this point in my journey.
+In order to make the codebase more DRY, I created a Media class. The Movie and Series classes inherit from the Media class, providing customization of the properties and methods while retaining some of the properties of the parent Media class due to inheritance. I create class methods to handle creation of HTML strings for dynamic insertion into the DOM. This is about as close to React components as I could get considering I had not learned React at this point in my journey.
 
 ```js
 export default class Movie extends Media {
@@ -144,11 +144,11 @@ Also created private class methods marked with **#**. This method was only usefu
 
 ### Continued development
 
-- Adding Firebase authentication
+- Adding Firebase authentication (in progress)
 - Firebase database for storing user watchlist
 - Converting codebase to React
 
 ## Author
 
-- [Jeff Eng](https://www.jeffeng.com)
+- [Portfolio](https://www.jeffeng.com)
 - X (formerly Twitter) [@elev8eng](https://x.com/elev8eng)
