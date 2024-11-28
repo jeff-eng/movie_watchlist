@@ -48,3 +48,19 @@ async function handleSignInWithEmail(email, password) {
     console.error(err.message);
   }
 }
+
+async function handleAuthSignOut(auth) {
+  try {
+    signOut(auth);
+    console.log('user signed out');
+    // Show the sign-in screen
+    document.getElementById('signin-screen').classList.toggle('hide');
+    // Hide the watchlist
+    document.getElementById('watchlist').classList.toggle('hide');
+    document.getElementById('sign-out-button').classList.add('hide');
+  } catch (err) {
+    console.error(err);
+
+    // Display an error message to the user
+  }
+}
