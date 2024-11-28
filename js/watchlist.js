@@ -18,3 +18,17 @@ async function fetchFirebaseConfig() {
     console.error('Error fetching Firebase config:', err);
   }
 }
+
+async function handleCreateAccountWithEmail(email, password) {
+  try {
+    const userCredential = await createUserWithEmailAndPassword(
+      auth,
+      email,
+      password
+    );
+    console.log(userCredential.user);
+    console.log('logged in new user!');
+  } catch (err) {
+    console.error(err.message);
+  }
+}
