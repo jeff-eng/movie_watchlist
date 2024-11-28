@@ -6,6 +6,13 @@ import {
   renderWatchlist,
 } from './watchlist-functions.js';
 
+(async function initializeFirebaseApp() {
+  try {
+  } catch (err) {
+    console.error('App initialization failed: ', err);
+  }
+})();
+
 async function fetchFirebaseConfig() {
   try {
     const response = await fetch('/.netlify/functions/getFirebaseConfig');
