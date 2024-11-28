@@ -64,3 +64,19 @@ async function handleAuthSignOut(auth) {
     // Display an error message to the user
   }
 }
+
+async function handleSignInWithGoogle(auth, googleProvider) {
+  try {
+    const result = await signInWithPopup(auth, googleProvider);
+
+    if (result) {
+      console.log('User signed in:', result.user);
+    } else {
+      console.log('No redirect result available.');
+    }
+
+    console.log('Signed in with Google');
+  } catch (err) {
+    console.error(err);
+  }
+}
