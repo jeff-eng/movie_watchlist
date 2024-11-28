@@ -32,3 +32,19 @@ async function handleCreateAccountWithEmail(email, password) {
     console.error(err.message);
   }
 }
+
+async function handleSignInWithEmail(email, password) {
+  try {
+    const userCredential = await signInWithEmailAndPassword(
+      auth,
+      email,
+      password
+    );
+
+    console.log(userCredential.user);
+    console.log('logged in existing user');
+  } catch (err) {
+    console.error(err);
+    console.error(err.message);
+  }
+}
