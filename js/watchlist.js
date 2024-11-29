@@ -16,6 +16,26 @@ import {
 
     let watchlist = setupWatchlist();
 
+    onAuthStateChanged(auth, user => {
+      if (user) {
+        console.log(user);
+        document.getElementById('profile-photo').classList.remove('hide');
+        document.getElementById('profile-photo').src = user.photoURL
+          ? user.photoURL
+          : './../assets/undraw_Pic_profile_re_7g2h.png';
+        // Show signed-in view
+        document.getElementById('signin-screen').classList.add('hide');
+        document.getElementById('sign-out-button').classList.remove('hide');
+        document.getElementById('watchlist').classList.remove('hide');
+      } else {
+        // Show signed-out view
+        document.getElementById('profile-photo').classList.add('hide');
+        document.getElementById('signin-screen').classList.remove('hide');
+        document.getElementById('watchlist').classList.add('hide');
+        document.getElementById('sign-out-button').classList.add('hide');
+      }
+    });
+
     // Watchlist click events
     document.getElementById('watchlist').addEventListener('click', event => {
       const eventTarget = event.target;
