@@ -121,6 +121,13 @@ import {
           document.getElementById('signin-password').value = '';
           document.getElementById('signin-email').value = '';
         });
+
+      // Event listener on the sign-out button
+      document
+        .getElementById('sign-out-button')
+        .addEventListener('click', () => handleAuthSignOut(auth));
+
+      renderWatchlist(watchlist);
     });
   } catch (err) {
     console.error('App initialization failed: ', err);
