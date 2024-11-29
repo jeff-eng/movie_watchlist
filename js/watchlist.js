@@ -8,6 +8,100 @@ import {
 
 (async function initializeFirebaseApp() {
   try {
+    const firebaseConfig = await fetchFirebaseConfig();
+
+    // Initialize Firebase
+    const app = initializeApp(firebaseConfig);
+    const auth = getAuth(app);
+
+    let watchlist = setupWatchlist();
+
+    // Watchlist click events
+    document.getElementById('watchlist').addEventListener('click', event => {
+      const eventTarget = event.target;
+
+      const likedButtonMediaId = eventTarget.dataset.imdbId ?? null;
+      const clickedArticle = eventTarget.closest('article.result');
+
+      // Screen out clicked elements that aren't articles
+      if (!clickedArticle) {
+        return;
+      }
+
+      const clickedArticleId = clickedArticle.id;
+
+      if (likedButtonMediaId) {
+        watchlist = removeFromStoredWatchlist(
+          watchlist[likedButtonMediaId],
+          watchlist
+        );
+
+        const watchlistItemToRemove =
+          document.getElementById(likedButtonMediaId);
+        watchlistItemToRemove.style.animationPlayState = 'running';
+        watchlistItemToRemove.addEventListener('animationend', () => {
+          watchlistItemToRemove.remove();
+        });
+        renderWatchlist(watchlist);
+      } else if (clickedArticleId) {
+        const modal = document.getElementById('modal');
+        modal.showModal();
+        modal.classList.remove('closed');
+        const html = watchlist[clickedArticleId].createModalDetailHtml();
+        modal.replaceChildren(...html);
+      } else return;
+    });
+
+    // Modal back button event listener - close modal
+    document.getElementById('modal').addEventListener('click', event => {
+      const eventTarget = event.target;
+      const imdbIdFromLikedBtn = eventTarget.dataset.imdbId;
+
+      if (eventTarget.closest('.modal__back-btn')) {
+        modal.classList.add('closed');
+        setTimeout(() => {
+          closeModal();
+        }, 500);
+      } else if (imdbIdFromLikedBtn) {
+        // Update watchlist variable
+        watchlist = removeFromStoredWatchlist(
+          watchlist[imdbIdFromLikedBtn],
+          watchlist
+        );
+        // Get reference to DOM element in watchlist section to remove
+        const watchlistItemToRemove =
+          document.getElementById(imdbIdFromLikedBtn);
+        // Fade out and shrink animation
+        watchlistItemToRemove.style.animationPlayState = 'running';
+        // Remove item from DOM after animation ends
+        watchlistItemToRemove.addEventListener('animationend', () => {
+          watchlistItemToRemove.remove();
+        });
+        closeModal();
+        renderWatchlist(watchlist);
+      }
+
+      // Other event listeners (sign-in, sign-out, etc.)
+      document
+        .getElementById('signin-form')
+        .addEventListener('submit', event => {
+          event.preventDefault();
+
+          const { value } = event.submitter;
+          const email = document.getElementById('signin-email').value;
+          const password = document.getElementById('signin-password').value;
+
+          if (value === 'sign-in') {
+            handleSignInWithEmail(auth, email, password);
+          } else {
+            handleCreateAccountWithEmail(auth, email, password);
+          }
+
+          // Clear the input fields
+          document.getElementById('signin-password').value = '';
+          document.getElementById('signin-email').value = '';
+        });
+    });
   } catch (err) {
     console.error('App initialization failed: ', err);
   }
