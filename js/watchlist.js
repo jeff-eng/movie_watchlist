@@ -13,6 +13,7 @@ import {
     // Initialize Firebase
     const app = initializeApp(firebaseConfig);
     const auth = getAuth(app);
+    const googleProvider = new GoogleAuthProvider();
 
     let watchlist = setupWatchlist();
 
@@ -121,6 +122,13 @@ import {
           document.getElementById('signin-password').value = '';
           document.getElementById('signin-email').value = '';
         });
+
+      // Event listener on the Google Sign-in button
+      document
+        .getElementById('google-signin-button')
+        .addEventListener('click', () =>
+          handleSignInWithGoogle(auth, googleProvider)
+        );
 
       // Event listener on the sign-out button
       document
