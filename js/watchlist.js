@@ -23,7 +23,7 @@ import {
         document.getElementById('profile-photo').classList.remove('hide');
         document.getElementById('profile-photo').src = user.photoURL
           ? user.photoURL
-          : './../assets/undraw_Pic_profile_re_7g2h.png';
+          : './../assets/user-profile-icon.png';
         // Show signed-in view
         document.getElementById('signin-screen').classList.add('hide');
         document.getElementById('sign-out-button').classList.remove('hide');
